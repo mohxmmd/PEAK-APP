@@ -22,15 +22,6 @@ workflows:
           rm -rf ios/Pods ios/.symlinks ios/Flutter/Flutter.podspec
           flutter pub get
 
-      - name: Ensure correct package linking
-        script: |
-          cd ios
-          rm -rf Pods Podfile.lock
-          pod deintegrate
-          pod setup
-          pod install --verbose --repo-update
-          cd ..
-
       - name: Run Xcode build with extra flags
         script: |
           flutter build ios --release --no-codesign --verbose
