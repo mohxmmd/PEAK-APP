@@ -16,10 +16,12 @@ workflows:
             echo "use_frameworks!" >> Podfile
             echo "use_modular_headers!" >> Podfile
             echo "target 'Runner' do" >> Podfile
-            echo "  flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))" >> Podfile
+            echo "  # Flutter's Podfile helper method to install all iOS pods" >> Podfile
+            echo "  require File.expand_path(File.join('..', 'Flutter', 'flutter_ios_podfile_setup'))" >> Podfile
+            echo "  flutter_ios_podfile_setup" >> Podfile
             echo "end" >> Podfile
           fi
-          # Add necessary configurations to the Podfile
+          # Ensure FLUTTER_ROOT is correctly set up
           echo "def flutter_root" >> Podfile
           echo "generated_xcode_build_settings_path = File.expand_path(File.join('..', 'Flutter', 'Generated.xcconfig'), __FILE__)" >> Podfile
           echo "unless File.exist?(generated_xcode_build_settings_path)" >> Podfile
@@ -32,7 +34,6 @@ workflows:
           echo "raise \"FLUTTER_ROOT not found in #{generated_xcode_build_settings_path}. Try deleting Generated.xcconfig, then run flutter pub get\"" >> Podfile
           echo "end" >> Podfile
           echo "require File.expand_path(File.join('packages', 'flutter_tools', 'bin', 'podhelper'), flutter_root)" >> Podfile
-          echo "flutter_ios_podfile_setup" >> Podfile
       - name: Clean project
         script: |
           flutter clean
@@ -49,4 +50,4 @@ workflows:
     publishing:
       email:
         recipients:
-          - your-email@example.com
+          - mohxmmd@gmail.com
