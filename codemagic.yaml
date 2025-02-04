@@ -10,12 +10,18 @@ workflows:
     scripts:
       - name: Set iOS deployment target
         script: |
-          sed -i '' 's/IPHONEOS_DEPLOYMENT_TARGET = .*/IPHONEOS_DEPLOYMENT_TARGET = 14.0;/g' ios/Runner.xcodeproj/project.pbxproj
+          # Set iOS deployment target to 13.0
+          sed -i '' 's/IPHONEOS_DEPLOYMENT_TARGET = .*/IPHONEOS_DEPLOYMENT_TARGET = 13.0;/g' ios/Runner.xcodeproj/project.pbxproj
 
-      # Add PhoneNumberKit to the Podfile
       - name: Add PhoneNumberKit to Podfile
         script: |
+          # Add PhoneNumberKit to Podfile
           echo "pod 'PhoneNumberKit', '~> 2.0'" >> ios/Podfile
+
+      - name: Set platform version in Podfile
+        script: |
+          # Set minimum iOS version in the Podfile to 13.0
+          sed -i '' 's/# platform :ios, .*/platform :ios, '13.0'/g' ios/Podfile
 
       # Install dependencies and build the app
       - flutter pub get
