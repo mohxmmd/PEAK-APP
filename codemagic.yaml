@@ -8,16 +8,11 @@ workflows:
         FLUTTER_VERSION: "stable"
       xcode: latest
     scripts:
-      - name: Set iOS deployment target to 13.0
+      - name: Set iOS deployment target
         script: |
-          # Dynamically set the minimum iOS version to 13.0 in the Podfile
-          sed -i '' 's/platform :ios, .*/platform :ios, '13.0'/g' ios/Podfile
-
-      # Add PhoneNumberKit to the Podfile (if not already added)
+          sed -i '' 's/IPHONEOS_DEPLOYMENT_TARGET = .*/IPHONEOS_DEPLOYMENT_TARGET = 13.0;/g' ios/Runner.xcodeproj/project.pbxproj
       - name: Add PhoneNumberKit to Podfile
         script: |
           echo "pod 'PhoneNumberKit', '~> 2.0'" >> ios/Podfile
-
-      # Install dependencies and build the app
       - flutter pub get
       - flutter build ios --release --no-codesign
