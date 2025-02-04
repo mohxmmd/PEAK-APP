@@ -36,7 +36,7 @@ dependencies:
   flutter_dotenv: ^5.2.1
   flutter_launcher_icons: ^0.14.2
   firebase_crashlytics: ^4.3.0
-  firebase_analytics: ^11.4.0
+  # firebase_analytics: ^11.4.0
   shimmer: ^3.0.0
 
 dev_dependencies:
