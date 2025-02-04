@@ -1,39 +1,31 @@
+# codemagic.yaml
 workflows:
   ios-workflow:
     name: iOS Workflow
     environment:
-      vars:
-        XCODE_WORKSPACE: "Runner.xcworkspace"
-        XCODE_SCHEME: "Runner"
-        FLUTTER_VERSION: "stable"
+      flutter: stable
       xcode: latest
+      cocoapods: default
     scripts:
-      - name: Set up Podfile with correct platform
+      - name: Set up Podfile
         script: |
-          if [ ! -f ios/Podfile ]; then
-            cat <<EOL > ios/Podfile
-          platform :ios, '13.0'
-          use_frameworks!
-          use_modular_headers!
-
-          flutter_application_path = File.expand_path('..', __FILE__)
-          load File.join(flutter_application_path, 'packages', 'flutter_tools', 'bin', 'podhelper.rb')
-
-          target 'Runner' do
-            flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
-          end
-          EOL
-          else
-            sed -i '' 's/platform :ios, .*/platform :ios, "13.0"/g' ios/Podfile
-          fi
-
-      - name: Clean Flutter and reinstall dependencies
+          cd ios
+          echo "platform :ios, '13.0'" > Podfile
+          echo "use_frameworks!" >> Podfile
+          echo "target 'Runner' do" >> Podfile
+          echo "  use_modular_headers!" >> Podfile
+          echo "  pod 'Firebase/Core' # Example pod, replace with your own" >> Podfile
+          echo "end" >> Podfile
+      - name: Install pods
         script: |
-          flutter clean
-          rm -rf ios/Pods ios/.symlinks ios/Flutter/Flutter.podspec
-          flutter pub get
-          cd ios && pod install && cd ..
-
-      - name: Run Xcode build with extra flags
+          cd ios
+          pod install
+      - name: Build iOS
         script: |
-          flutter build ios --release --no-codesign --verbose
+          flutter build ios --release --no-codesign
+    artifacts:
+      - build/ios/iphoneos/Runner.app
+    publishing:
+      email:
+        recipients:
+          - your-email@example.com
