@@ -9,12 +9,34 @@ workflows:
       - name: Set up Podfile
         script: |
           cd ios
-          echo "platform :ios, '13.0'" > Podfile
-          echo "use_frameworks!" >> Podfile
-          echo "target 'Runner' do" >> Podfile
-          echo "  use_modular_headers!" >> Podfile
-          echo "  pod 'Firebase/Core'" >> Podfile
+          # Check if Podfile exists, if not, create one
+          if [ ! -f "Podfile" ]; then
+            echo "Creating Podfile..."
+            echo "platform :ios, '13.0'" > Podfile
+            echo "use_frameworks!" >> Podfile
+            echo "use_modular_headers!" >> Podfile
+            echo "target 'Runner' do" >> Podfile
+            echo "  flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))" >> Podfile
+            echo "end" >> Podfile
+          fi
+          # Add necessary configurations to the Podfile
+          echo "def flutter_root" >> Podfile
+          echo "generated_xcode_build_settings_path = File.expand_path(File.join('..', 'Flutter', 'Generated.xcconfig'), __FILE__)" >> Podfile
+          echo "unless File.exist?(generated_xcode_build_settings_path)" >> Podfile
+          echo "  raise \"#{generated_xcode_build_settings_path} must exist. If you're running pod install manually, make sure flutter pub get is executed first\"" >> Podfile
           echo "end" >> Podfile
+          echo "File.foreach(generated_xcode_build_settings_path) do |line|" >> Podfile
+          echo "  matches = line.match(/FLUTTER_ROOT\=(.*)/)" >> Podfile
+          echo "  return matches[1].strip if matches" >> Podfile
+          echo "end" >> Podfile
+          echo "raise \"FLUTTER_ROOT not found in #{generated_xcode_build_settings_path}. Try deleting Generated.xcconfig, then run flutter pub get\"" >> Podfile
+          echo "end" >> Podfile
+          echo "require File.expand_path(File.join('packages', 'flutter_tools', 'bin', 'podhelper'), flutter_root)" >> Podfile
+          echo "flutter_ios_podfile_setup" >> Podfile
+      - name: Clean project
+        script: |
+          flutter clean
+          flutter pub get
       - name: Install pods
         script: |
           cd ios
@@ -27,4 +49,4 @@ workflows:
     publishing:
       email:
         recipients:
-          - mohxmmd@gmail.com
+          - your-email@example.com
