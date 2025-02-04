@@ -8,33 +8,14 @@ workflows:
         FLUTTER_VERSION: "stable"
       xcode: latest
     scripts:
-      - name: Set up Podfile
+      - name: Ensure Flutter iOS directory is set up
         script: |
-          if [ ! -f ios/Podfile ]; then
-            cat <<EOL > ios/Podfile
-          platform :ios, '13.0'
-          use_frameworks!
-
-          # Load Flutter dependencies
-          require File.expand_path('../Flutter/ephemeral/flutter_root', __FILE__)
-          require File.expand_path('../Flutter/ephemeral/podhelper', __FILE__)
-
-          target 'Runner' do
-            use_frameworks!
-            use_modular_headers!
-            flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
-          end
-          EOL
-          else
-            sed -i '' 's/platform :ios, .*/platform :ios, "13.0"/g' ios/Podfile
-          fi
-
-      - name: Clean Flutter and reinstall dependencies
-        script: |
-          flutter clean
-          rm -rf ios/Pods ios/.symlinks ios/Flutter/Flutter.podspec
           flutter pub get
-          cd ios && pod install && cd ..
+          flutter build ios --no-codesign --simulator # This generates required files
+          cd ios
+          rm -rf Pods Podfile.lock .symlinks Flutter/Flutter.podspec
+          pod install
+          cd ..
 
       - name: Run Xcode build with extra flags
         script: |
