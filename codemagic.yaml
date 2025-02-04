@@ -10,6 +10,14 @@ workflows:
     scripts:
       - name: Set iOS deployment target
         script: |
-          sed -i '' 's/IPHONEOS_DEPLOYMENT_TARGET = .*/IPHONEOS_DEPLOYMENT_TARGET = 13.0;/g' ios/Runner.xcodeproj/project.pbxproj
+          sed -i '' 's/IPHONEOS_DEPLOYMENT_TARGET = .*/IPHONEOS_DEPLOYMENT_TARGET = 14.0;/g' ios/Runner.xcodeproj/project.pbxproj
+
+      # Add PhoneNumberKit to the Podfile
+      - name: Add PhoneNumberKit to Podfile
+        script: |
+          echo "pod 'PhoneNumberKit', '~> 2.0'" >> ios/Podfile
+
+      # Install dependencies and build the app
       - flutter pub get
+      - flutter clean
       - flutter build ios --release --no-codesign
