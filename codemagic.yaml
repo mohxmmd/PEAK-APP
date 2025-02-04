@@ -8,11 +8,28 @@ workflows:
         FLUTTER_VERSION: "stable"
       xcode: latest
     scripts:
-      - name: Set iOS deployment target
+      - name: Set iOS deployment target in Podfile
         script: |
-          sed -i '' 's/IPHONEOS_DEPLOYMENT_TARGET = .*/IPHONEOS_DEPLOYMENT_TARGET = 13.0;/g' ios/Runner.xcodeproj/project.pbxproj
-      - name: Add PhoneNumberKit to Podfile
+          # Ensure Podfile exists
+          if [ -f ios/Podfile ]; then
+            sed -i '' 's/platform :ios, .*/platform :ios, "13.0"/g' ios/Podfile
+          else
+            echo "platform :ios, '13.0'" > ios/Podfile
+          fi
+          
+      - name: Ensure Podfile has a target and PhoneNumberKit
         script: |
+          if ! grep -q "target 'Runner'" ios/Podfile; then
+            echo "target 'Runner' do" >> ios/Podfile
+            echo "end" >> ios/Podfile
+          fi
           echo "pod 'PhoneNumberKit', '~> 2.0'" >> ios/Podfile
+
+      - name: Install CocoaPods dependencies
+        script: |
+          cd ios
+          pod install --repo-update
+          cd ..
+
       - flutter pub get
       - flutter build ios --release --no-codesign
