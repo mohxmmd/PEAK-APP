@@ -14,6 +14,11 @@ workflows:
             cat <<EOL > ios/Podfile
           platform :ios, '13.0'
           use_frameworks!
+
+          # Load Flutter dependencies
+          require File.expand_path('../Flutter/ephemeral/flutter_root', __FILE__)
+          require File.expand_path('../Flutter/ephemeral/podhelper', __FILE__)
+
           target 'Runner' do
             use_frameworks!
             use_modular_headers!
