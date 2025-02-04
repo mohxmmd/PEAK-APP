@@ -13,12 +13,12 @@ workflows:
           echo "use_frameworks!" >> Podfile
           echo "target 'Runner' do" >> Podfile
           echo "  use_modular_headers!" >> Podfile
-          echo "  pod 'Firebase/Core'" >> Podfile  # Make sure Firebase is included here
+          echo "  pod 'Firebase/Core'" >> Podfile
           echo "end" >> Podfile
       - name: Install pods
         script: |
           cd ios
-          pod install --repo-update  # Ensures the latest pods are installed
+          pod install --repo-update
       - name: Build iOS
         script: |
           flutter build ios --release --no-codesign
@@ -27,4 +27,4 @@ workflows:
     publishing:
       email:
         recipients:
-          - your-email@example.com
+          - mohxmmd@gmail.com
