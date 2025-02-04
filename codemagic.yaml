@@ -1,4 +1,3 @@
-# codemagic.yaml
 workflows:
   ios-workflow:
     name: iOS Workflow
@@ -14,12 +13,12 @@ workflows:
           echo "use_frameworks!" >> Podfile
           echo "target 'Runner' do" >> Podfile
           echo "  use_modular_headers!" >> Podfile
-          echo "  pod 'Firebase/Core' # Example pod, replace with your own" >> Podfile
+          echo "  pod 'Firebase/Core'" >> Podfile  # Make sure Firebase is included here
           echo "end" >> Podfile
       - name: Install pods
         script: |
           cd ios
-          pod install
+          pod install --repo-update  # Ensures the latest pods are installed
       - name: Build iOS
         script: |
           flutter build ios --release --no-codesign
