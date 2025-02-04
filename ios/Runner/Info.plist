@@ -5,9 +5,12 @@
 
 		<!-- PERMISIONS -->
 		<key>NSCameraUsageDescription</key>
-		<string>We need access to your camera to take photos.</string>
+		<string>This app requires access to your camera to take a profile picture.</string>
 		<key>NSPhotoLibraryUsageDescription</key>
-		<string>We need access to your photo library to upload images.</string>
+		<string>This app requires access to your photo library to select a profile picture.</string>
+		<key>NSUserNotificationUsageDescription</key>
+		<string>This app needs permission to send you notifications.</string>
+
 		<!--  -->
 
 		<key>CFBundleDevelopmentRegion</key>
