@@ -8,10 +8,6 @@ workflows:
       ios_signing:
         distribution_type: app_store
         bundle_identifier: com.bluewhyte.peak
-        provisioning_profiles:
-          - com.bluewhyte.peak
-        certificates:
-          - com.bluewhyte.peak
     scripts:
       - name: Build for iOS
         script: flutter build ios
