@@ -1,4 +1,3 @@
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 // import 'package:firebase_analytics/firebase_analytics.dart';
 // import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -10,8 +9,6 @@ import 'package:peak_app/routes/routes.dart';
 import 'package:peak_app/screens/settings/settings_controller.dart';
 import 'package:peak_app/utils/theme.dart';
 import 'package:peak_app/utils/translations.dart';
-import 'package:peak_app/services/notification_service.dart';
-import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -91,7 +88,7 @@ void _initializeControllers() {
     debugPrint('Controllers and notification service initialized.');
   } catch (e) {
     debugPrint('❌Error initializing controllers or notification service: $e');
-    FirebaseCrashlytics.instance.recordError(e, null);
+    // FirebaseCrashlytics.instance.recordError(e, null);
   }
 }
 

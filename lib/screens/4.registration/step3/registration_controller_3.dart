@@ -23,7 +23,7 @@ class RegistrationController3 extends GetxController {
   void onInit() {
     super.onInit();
     _fetchMemberId();
-    NotificationService().initNotifications();
+    // NotificationService().initNotifications();
   }
 
   @override
