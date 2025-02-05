@@ -17,8 +17,6 @@ workflows:
           # Update the Podfile to set the minimum iOS deployment target to 13.0
           sed -i '' "s/platform :ios, '.*'/platform :ios, '13.0'/" ios/Podfile
 
-          # Update the Xcode project to set the minimum iOS deployment target to 13.0
-          /usr/libexec/PlistBuddy -c "Set :MinimumOSVersion 13.0" ios/Runner/Info.plist
 
       - name: Install CocoaPods dependencies
         script: |
