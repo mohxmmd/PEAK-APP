@@ -6,32 +6,5 @@ workflows:
       xcode: latest
       cocoapods: default
     scripts:
-      - name: Clean Flutter project
-        script: |
-          flutter clean
-          flutter pub get
-      - name: Ensure Flutter iOS Setup
-        script: |
-          cd ios
-          rm -rf Podfile.lock Pods
-          rm -rf Flutter/Flutter.podspec
-          flutter precache
-          flutter build ios --no-codesign
-      - name: Set iOS Deployment Target to 13.0
-        script: |
-          cd ios
-          sed -i '' 's/platform :ios, '12.0'/platform :ios, '13.0'/g' Podfile
-      - name: Install CocoaPods and dependencies
-        script: |
-          cd ios
-          pod repo update
-          pod install --verbose
-      - name: Build iOS App
-        script: |
-          flutter build ios --release --no-codesign
-    artifacts:
-      - build/ios/iphoneos/Runner.app
-    publishing:
-      email:
-        recipients:
-          - mohxmmd@gmail.com
+      - name: Build for iOS
+        script: flutter build ios
