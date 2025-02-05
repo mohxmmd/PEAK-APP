@@ -17,6 +17,10 @@ workflows:
           rm -rf Flutter/Flutter.podspec
           flutter precache
           flutter build ios --no-codesign
+      - name: Set iOS Deployment Target to 13.0
+        script: |
+          cd ios
+          sed -i '' 's/platform :ios, '12.0'/platform :ios, '13.0'/g' Podfile
       - name: Install CocoaPods and dependencies
         script: |
           cd ios
