@@ -1,26 +1,36 @@
 workflows:
-  build:
-    name: iOS Build & Test
-    max_build_duration: 15 # in minutes
-    instance_type: mac_mini_m1
+  ios-app:
+    name: iOS Build
+    max_build_duration: 60
+    environment:
+      flutter: stable
+      xcode: latest
+      cocoapods: default
+      groups:
+        - app_store_credentials
+
     triggering:
       events:
         - push
         - pull_request
+      branch_patterns:
+        - pattern: main
+          include: true
+          source: true
+
     scripts:
-      - name: Build
+      - name: Install dependencies
         script: |
-          xcodebuild build \
-            -project "Stats.xcodeproj" \
-            -scheme "Stats" \
-            CODE_SIGN_IDENTITY="" \
-            CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGNING_ALLOWED=NO          
-      - name: Extract .ipa (unsigned)
+          flutter pub get
+
+      - name: Build iOS app
         script: |
-          mkdir Payload
-          cp -r $HOME/Library/Developer/Xcode/DerivedData/**/Build/Products/Debug-iphoneos/*.app Payload
-          zip -r build.ipa Payload
-          rm -rf Payload          
+          flutter build ipa --release --no-codesign
+
     artifacts:
-    - build.ipa
+      - build/ios/ipa/*.ipa
+
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true
