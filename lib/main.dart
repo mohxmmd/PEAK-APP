@@ -1,5 +1,6 @@
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 // import 'package:firebase_analytics/firebase_analytics.dart';
-// import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -9,11 +10,13 @@ import 'package:peak_app/routes/routes.dart';
 import 'package:peak_app/screens/settings/settings_controller.dart';
 import 'package:peak_app/utils/theme.dart';
 import 'package:peak_app/utils/translations.dart';
+import 'package:peak_app/services/notification_service.dart';
+import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // await _initializeFirebase();
+  await _initializeFirebase();
   await _loadEnvironmentVariables();
   _setDeviceOrientation();
   _setSystemUIOverlayStyle();
@@ -21,34 +24,34 @@ Future<void> main() async {
   runApp(const MyApp());
 }
 
-// Future<void> _initializeFirebase() async {
-//   try {
-//     await Firebase.initializeApp(
-//         options: DefaultFirebaseOptions.currentPlatform);
-//     debugPrint('Firebase initialized successfully.');
+Future<void> _initializeFirebase() async {
+  try {
+    await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform);
+    debugPrint('Firebase initialized successfully.');
 
-//     // Set up Crashlytics
-//     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
-//     FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+    // Set up Crashlytics
+    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+    FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
 
-//     // Initialize Firebase Analytics
-//     FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-//     debugPrint('Firebase Analytics initialized successfully.');
+    // Initialize Firebase Analytics
+    // FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+    // debugPrint('Firebase Analytics initialized successfully.');
 
-//     await analytics.logEvent(
-//       name: 'app_initialized',
-//       parameters: <String, Object>{
-//         'platform': 'Flutter',
-//         'version': '1.0.0',
-//       },
-//     );
+    // await analytics.logEvent(
+    //   name: 'app_initialized',
+    //   parameters: <String, Object>{
+    //     'platform': 'Flutter',
+    //     'version': '1.0.0',
+    //   },
+    // );
 
-//     debugPrint('App initialization event logged.');
-//   } catch (e) {
-//     debugPrint('❌Error initializing Firebase: $e');
-//     rethrow;
-//   }
-// }
+    debugPrint('App initialization event logged.');
+  } catch (e) {
+    debugPrint('❌Error initializing Firebase: $e');
+    rethrow;
+  }
+}
 
 Future<void> _loadEnvironmentVariables() async {
   try {
@@ -73,7 +76,7 @@ void _setDeviceOrientation() {
 void _setSystemUIOverlayStyle() {
   try {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-        statusBarColor: Color(0xFFFFEFC8),
+        statusBarColor:  Color(0xFFFFEFC8),
         statusBarIconBrightness: Brightness.dark));
     debugPrint('System UI overlay style set.');
   } catch (e) {
@@ -84,11 +87,11 @@ void _setSystemUIOverlayStyle() {
 void _initializeControllers() {
   try {
     Get.put(SettingsController());
-    // NotificationService().initNotifications();
+    NotificationService().initNotifications();
     debugPrint('Controllers and notification service initialized.');
   } catch (e) {
     debugPrint('❌Error initializing controllers or notification service: $e');
-    // FirebaseCrashlytics.instance.recordError(e, null);
+    FirebaseCrashlytics.instance.recordError(e, null);
   }
 }
 

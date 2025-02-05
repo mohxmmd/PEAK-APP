@@ -8,6 +8,12 @@ workflows:
       cocoapods: default
 
     scripts:
+      - name: pod update
+        script: |
+          pod install --repo-update
+          flutter clean
+          
+ 
       - name: Install dependencies
         script: |
           flutter pub get
