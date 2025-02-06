@@ -32,15 +32,34 @@ workflows:
           echo "end" >> Podfile
           cat Podfile  # Print updated Podfile for debugging
 
-      - name: Install dependencies
+      - name: Ensure Dependencies Are Installed
         script: |
           flutter pub get
           cd ios
           pod install --repo-update
 
+      - name: Ensure Firebase Modules Are Found
+        script: |
+          cd ios
+          pod deintegrate
+          pod install --repo-update
+          cd ..
+          flutter clean
+          flutter pub get
+
+      - name: Verify GeneratedPluginRegistrant.m
+        script: |
+          FILE="ios/Runner/GeneratedPluginRegistrant.m"
+          if grep -q "firebase_core" "$FILE"; then
+            echo "firebase_core module found in GeneratedPluginRegistrant.m"
+          else
+            echo "Error: firebase_core module not found in GeneratedPluginRegistrant.m"
+            exit 1
+          fi
+
       - name: Build iOS app
         script: |
-          flutter build ipa --release --no-codesign
+          flutter build ipa --release --no-codesign || { echo "Retrying build..."; flutter build ipa --release --no-codesign; }
 
     artifacts:
       - build/ios/archive/*.ipa
