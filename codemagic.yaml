@@ -24,6 +24,7 @@ workflows:
           echo "  use_frameworks!" >> Podfile
           echo "" >> Podfile
           echo "  # Pods for Runner" >> Podfile
+          echo "  pod 'FirebaseCore', :modular_headers => true" >> Podfile  # Adding FirebaseCore
           echo "" >> Podfile
           echo "  target 'RunnerTests' do" >> Podfile
           echo "    inherit! :search_paths" >> Podfile
@@ -31,6 +32,7 @@ workflows:
           echo "  end" >> Podfile
           echo "end" >> Podfile
           cat Podfile  # Print updated Podfile for debugging
+
 
       - name: Ensure Dependencies Are Installed
         script: |
