@@ -60,11 +60,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyAgB_2_N2UXw4sLSfgYmaW7KZJSf-CiKY8',
-    appId: '1:849461771877:ios:48c556904a1d983acd108c',
+    appId: '1:849461771877:ios:cdfb5a9deb317555cd108c',
     messagingSenderId: '849461771877',
     projectId: 'peak-fb11c',
     storageBucket: 'peak-fb11c.firebasestorage.app',
-    iosBundleId: 'com.peak.app',
+    iosBundleId: 'com.bluewhyte.peak',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
