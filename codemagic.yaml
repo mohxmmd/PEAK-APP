@@ -33,6 +33,10 @@ workflows:
           echo "end" >> Podfile
           cat Podfile  # Print updated Podfile for debugging
 
+      - name: Remove Podfile.lock
+        script: |
+          cd ios
+          rm -f Podfile.lock
 
       - name: Ensure Dependencies Are Installed
         script: |
