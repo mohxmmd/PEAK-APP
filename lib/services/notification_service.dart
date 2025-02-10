@@ -1,5 +1,5 @@
 // import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:peak_app/screens/notification/notification_controller.dart';
 import 'package:peak_app/screens/notification/notification_screen.dart';
 import 'package:peak_app/services/user_service.dart';
@@ -15,8 +15,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class NotificationService {
   // final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
-  final FlutterLocalNotificationsPlugin _localNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+  // final FlutterLocalNotificationsPlugin _localNotificationsPlugin =
+  //     FlutterLocalNotificationsPlugin();
 
   // Future<void> initNotifications() async {
   //   // Request permission for notifications
@@ -94,24 +94,24 @@ class NotificationService {
 
   Future<void> _showLocalNotification(
       String title, String body, Map<String, dynamic> payload) async {
-    const AndroidNotificationDetails androidDetails =
-        AndroidNotificationDetails(
-      'default_channel_id',
-      'Default Channel',
-      channelDescription: 'Default channel for app notifications',
-      importance: Importance.high,
-      priority: Priority.high,
-    );
+    // const AndroidNotificationDetails androidDetails =
+    //     AndroidNotificationDetails(
+    //   'default_channel_id',
+    //   'Default Channel',
+    //   channelDescription: 'Default channel for app notifications',
+    //   importance: Importance.high,
+    //   priority: Priority.high,
+    // );
 
-    const NotificationDetails notificationDetails =
-        NotificationDetails(android: androidDetails);
+    // const NotificationDetails notificationDetails =
+    //     NotificationDetails(android: androidDetails);
 
-    await _localNotificationsPlugin.show(
-      DateTime.now().hashCode,
-      title,
-      body,
-      notificationDetails,
-      payload: payload['screen'] ?? 'notification_screen',
-    );
+    // await _localNotificationsPlugin.show(
+    //   DateTime.now().hashCode,
+    //   title,
+    //   body,
+    //   notificationDetails,
+    //   payload: payload['screen'] ?? 'notification_screen',
+    // );
   }
 }
