@@ -1,4 +1,4 @@
-import 'package:peak_app/screens/5.dashboard/dashboard_controller.dart';
+import 'package:peak_app/screens/dashboard/dashboard_controller.dart';
 import 'package:peak_app/utils/screen_imports.dart';
 import 'package:peak_app/screens/success/success_controller.dart';
 

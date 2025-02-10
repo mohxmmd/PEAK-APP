@@ -36,7 +36,7 @@ dependencies:
   flutter_dotenv: ^5.2.1
   flutter_launcher_icons: ^0.14.2
   firebase_crashlytics: ^4.3.0
-  # firebase_analytics: ^11.4.0
+  firebase_analytics: ^11.4.0
   shimmer: ^3.0.0
 
 dev_dependencies:
@@ -46,7 +46,6 @@ dev_dependencies:
 
   flutter_lints: ^4.0.0
 
-# The following section is specific to Flutter packages.
 flutter:
   uses-material-design: true
   assets:
@@ -78,7 +77,7 @@ flutter_launcher_icons:
   adaptive_icon_foreground: "assets/icon/icon.png"
 
 flutter_native_splash:
-  color: "#121A27" # Your splash background color
+  color: "#121A27"
   image: "assets/images/launcher-logo-new.png"
   android: true
   ios: true

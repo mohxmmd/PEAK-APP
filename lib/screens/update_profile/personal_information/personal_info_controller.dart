@@ -1,4 +1,4 @@
-import 'package:peak_app/screens/5.dashboard/dashboard_controller.dart';
+import 'package:peak_app/screens/dashboard/dashboard_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

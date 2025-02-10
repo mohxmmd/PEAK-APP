@@ -1,7 +1,7 @@
-import 'package:peak_app/screens/8.logout/logout_controller.dart';
+import 'package:peak_app/screens/logout/logout_controller.dart';
 import 'package:peak_app/utils/screen_imports.dart';
 import 'package:peak_app/widgets/back_button.dart';
-import 'package:peak_app/screens/6.profile/profile_controller.dart';
+import 'package:peak_app/screens/profile/profile_controller.dart';
 
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({super.key});

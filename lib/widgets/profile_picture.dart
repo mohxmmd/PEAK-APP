@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:peak_app/screens/4.registration/step1/registration_controller_1.dart';
+import 'package:peak_app/screens/registration/step1/registration_controller_1.dart';
 
 class ProfilePictureWidget extends StatelessWidget {
   final Registration1Controller controller;

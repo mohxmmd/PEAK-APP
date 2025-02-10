@@ -3,7 +3,7 @@ import 'package:peak_app/widgets/button.dart';
 import 'package:peak_app/widgets/input_fields/drop_down_field.dart';
 import 'package:peak_app/widgets/input_fields/input_field.dart';
 import 'package:peak_app/widgets/registration_widgets/heading_widget.dart';
-import 'package:peak_app/screens/4.registration/step3/registration_controller_3.dart';
+import 'package:peak_app/screens/registration/step3/registration_controller_3.dart';
 
 class Registration3Screen extends StatelessWidget {
   Registration3Screen({super.key});

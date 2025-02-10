@@ -1,4 +1,4 @@
-import 'package:peak_app/screens/7.update_profile/profesional_information/professional_info_controller.dart';
+import 'package:peak_app/screens/update_profile/profesional_information/professional_info_controller.dart';
 import 'package:peak_app/utils/screen_imports.dart';
 import 'package:peak_app/widgets/back_button.dart';
 import 'package:peak_app/widgets/button.dart';

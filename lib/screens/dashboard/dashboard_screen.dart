@@ -8,7 +8,7 @@ import 'package:peak_app/widgets/dashboard_widgets/id_card.dart';
 import 'package:peak_app/widgets/dashboard_widgets/membership_status_card.dart';
 import 'package:peak_app/widgets/dashboard_widgets/notification_button.dart';
 import 'package:peak_app/widgets/dashboard_widgets/profile_status_card.dart';
-import 'package:peak_app/screens/5.dashboard/dashboard_controller.dart';
+import 'package:peak_app/screens/dashboard/dashboard_controller.dart';
 import 'package:shimmer/shimmer.dart';
 
 class DashboardScreen extends StatelessWidget {

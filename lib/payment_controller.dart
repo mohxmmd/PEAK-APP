@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:peak_app/routes/routes.dart';
-import 'package:peak_app/screens/5.dashboard/dashboard_controller.dart';
+import 'package:peak_app/screens/dashboard/dashboard_controller.dart';
 import 'package:peak_app/screens/transaction/transaction_controller.dart';
 import 'package:peak_app/services/other_settings.dart';
 import 'package:peak_app/services/user_service.dart';

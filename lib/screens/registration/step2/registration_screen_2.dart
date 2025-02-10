@@ -1,4 +1,4 @@
-import 'package:peak_app/screens/4.registration/step2/registration_controller_2.dart';
+import 'package:peak_app/screens/registration/step2/registration_controller_2.dart';
 import 'package:peak_app/utils/screen_imports.dart';
 import 'package:peak_app/widgets/registration_widgets/heading_widget.dart';
 import 'package:peak_app/widgets/input_fields/drop_down_field.dart';

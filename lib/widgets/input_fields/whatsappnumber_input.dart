@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:get/get.dart';
-import 'package:peak_app/screens/2.login/login_controller.dart';
+import 'package:peak_app/screens/login/login_controller.dart';
 
 class WhatsAppInput extends StatelessWidget {
   final GlobalKey<FormState> formKey;

@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:peak_app/routes/routes.dart';
-import 'package:peak_app/screens/5.dashboard/dashboard_controller.dart';
+import 'package:peak_app/screens/dashboard/dashboard_controller.dart';
 import 'package:peak_app/services/user_service.dart';
 import 'package:peak_app/utils/screen_imports.dart';
 import 'package:shared_preferences/shared_preferences.dart';

@@ -1,4 +1,4 @@
-import 'package:peak_app/screens/2.login/login_screen.dart';
+import 'package:peak_app/screens/login/login_screen.dart';
 import 'package:peak_app/utils/screen_imports.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

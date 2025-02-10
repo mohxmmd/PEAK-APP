@@ -1,14 +1,15 @@
-import 'package:peak_app/screens/7.update_profile/additional_information/additional_info_controller.dart';
+import 'package:peak_app/screens/update_profile/personal_information/personal_info_controller.dart';
 import 'package:peak_app/utils/screen_imports.dart';
 import 'package:peak_app/widgets/back_button.dart';
 import 'package:peak_app/widgets/button.dart';
 import 'package:peak_app/widgets/input_fields/drop_down_field.dart';
 import 'package:peak_app/widgets/input_fields/input_field.dart';
 
-class AdditionalInfoScreen extends StatelessWidget {
-  AdditionalInfoScreen({super.key});
-  final controller = Get.put(AdditionalInfoController());
+class PersonalInfoScreen extends StatelessWidget {
+  final controller = Get.put(PersonalInfoController());
   final _formKey = GlobalKey<FormState>();
+
+  PersonalInfoScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,29 +25,29 @@ class AdditionalInfoScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 20),
-                _buildSectionTitle(context, 'reg-additional-info'.tr),
+                _buildSectionTitle(context, 'reg-personal-info'.tr),
                 const Divider(color: Colors.white24, thickness: 1, height: 30),
                 const SizedBox(height: 20),
                 _buildFormFields(context),
                 const SizedBox(height: 30),
                 Obx(
                   () => CustomElevatedButton(
-                    label: controller.isLoading ? '' : 'Save'.tr,
+                    label: controller.isLoading ? '' : 'Save',
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        controller.updateAdditionalInfo().then((success) {
+                        controller.updatePersonalInfo().then((success) {
                           if (success) {
                             Get.back();
                             Get.snackbar(
                               'Success',
-                              'Profile updated successfully',
+                              'Profile Updated Successfully',
                               backgroundColor: Colors.green,
                               colorText: Colors.white,
                             );
                           } else {
                             Get.snackbar(
-                              'Error',
-                              'Profile updation failed',
+                              'Error'.tr,
+                              'Failed to update profile'.tr,
                               backgroundColor: Colors.red,
                               colorText: Colors.white,
                             );
@@ -82,16 +83,24 @@ class AdditionalInfoScreen extends StatelessWidget {
     return Column(
       children: [
         CustomInputField(
-          label: 'emergency_contact_name'.tr,
-          hintText: 'emergency_contact_name_hint'.tr,
+          label: 'local-address-label'.tr,
+          hintText: 'local-address-hint'.tr,
+          icon: Icons.home_outlined,
+          controller: controller.localAddressController,
+          validator: (value) =>
+              value?.isEmpty == true ? 'error-local-address'.tr : null,
+        ),
+        const SizedBox(height: 20),
+        CustomInputField(
+          label: 'fathers-name-label'.tr,
+          hintText: 'fathers-name-hint'.tr,
           icon: Icons.person_outline,
-          controller: controller.emergencyContactName,
+          controller: controller.fathersNameController,
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return 'emergency_contact_name_error'
-                  .tr; 
+              return 'error-fathers-name'.tr; 
             } else if (!RegExp(r"^[a-zA-Z\s]+$").hasMatch(value)) {
-              return 'emergency_contact_name_invalid'
+              return 'invalid-fathers-name'
                   .tr; 
             }
             return null; 
@@ -99,57 +108,67 @@ class AdditionalInfoScreen extends StatelessWidget {
         ),
         const SizedBox(height: 20),
         CustomInputField(
-          label: 'emergency_contact_number'.tr,
-          hintText: 'emergency_contact_number_hint'.tr,
-          icon: Icons.phone_outlined,
-          controller: controller.emergencyContactNumber,
+          label: 'mobile-number-label'.tr,
+          hintText: 'mobile-number-hint'.tr,
+          icon: Icons.phone_android_rounded,
+          controller: controller.mobileNumberController,
           isNumeric: true,
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return 'emergency_contact_number_error'.tr;
+              return 'error-mobile-number'.tr; 
+            } else if (!RegExp(r"^\+?\d{1,3}[\s\-]?\d{10}$").hasMatch(value)) {
+              return 'invalid-mobile-number'
+                  .tr; 
             }
-            if (!RegExp(r'^\+?\d{10,15}$').hasMatch(value)) {
-              return 'emergency_contact_number_invalid'.tr;
-            }
+            return null; 
+          },
+        ),
+        const SizedBox(height: 20),
+        CustomInputField(
+          label: 'email-label'.tr,
+          hintText: 'email-hint'.tr,
+          icon: Icons.email_outlined,
+          controller: controller.emailAddressController,
+          validator: (value) {
+            if (value?.isEmpty == true) return 'error-email'.tr;
+            const emailPattern =
+                r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
+            final regExp = RegExp(emailPattern);
+            if (!regExp.hasMatch(value!)) return 'invalid-email'.tr;
             return null;
           },
         ),
         const SizedBox(height: 20),
         CustomInputField(
-          label: 'expatriate_since'.tr,
-          hintText: 'expatriate_since_hint'.tr,
-          icon: Icons.calendar_today_outlined,
-          controller: controller.expatriateSince,
+          label: 'contact-number-label'.tr,
+          hintText: 'contact-number-hint'.tr,
+          icon: Icons.call,
+          controller: controller.localContactController,
           isNumeric: true,
           validator: (value) {
-            if (value?.isEmpty == true) {
-              return 'expatriate_since_error'.tr;
+            if (value == null || value.isEmpty) {
+              return 'error-contact-number'.tr; 
+            } else if (!RegExp(r"^\+?\d{1,3}[\s\-]?\d{10}$").hasMatch(value)) {
+              return 'invalid-mobile-number'
+                  .tr; 
             }
-            if (!RegExp(r'^\d{4}$').hasMatch(value!) ||
-                int.parse(value) > DateTime.now().year) {
-              return 'expatriate_since_invalid'.tr;
-            }
-            return null;
+            return null; 
           },
         ),
         const SizedBox(height: 20),
         CustomDropdownField(
-          label: 'plan_to_stop_expat'.tr,
-          hintText: 'plan_to_stop_expat_hint'.tr,
-          icon: Icons.event_outlined,
+          label: 'marital-status-label'.tr,
+          hintText: 'marital-status-hint'.tr,
+          icon: Icons.favorite_border,
           options: const [
-            'Within 1 year',
-            'Within 2 years',
-            'Within 3 years',
-            'Within 4 years',
-            'Within 5 years',
-            'Within 8 years',
-            'Within 10 years',
-            'Within 15 years'
+            'Single',
+            'Married',
+            'Divorced',
+            'Widowed',
           ],
-          controller: controller.planToStopExpat,
+          controller: controller.maritalStatusController,
           validator: (value) =>
-              value?.isEmpty == true ? 'plan_to_stop_expat_error'.tr : null,
+              value?.isEmpty == true ? 'error-marital-status'.tr : null,
         ),
       ],
     );
