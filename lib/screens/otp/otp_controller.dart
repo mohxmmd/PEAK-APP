@@ -29,7 +29,7 @@ class OtpController extends GetxController {
   Future<void> _initializeServices() async {
     try {
       Get.put(SettingsController());
-      await NotificationService().initNotifications();
+      // await NotificationService().initNotifications();
       debugPrint('Notification service initialized.');
     } catch (e) {
       debugPrint('Error initializing notification service: $e');
