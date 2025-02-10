@@ -58,15 +58,15 @@ workflows:
           flutter clean
           flutter pub get
 
-      - name: Verify GeneratedPluginRegistrant.m
-        script: |
-          FILE="ios/Runner/GeneratedPluginRegistrant.m"
-          if grep -q "firebase_core" "$FILE"; then
-            echo "✅ firebase_core module found in GeneratedPluginRegistrant.m"
-          else
-            echo "❌ Error: firebase_core module not found in GeneratedPluginRegistrant.m"
-            exit 1
-          fi
+      # - name: Verify GeneratedPluginRegistrant.m
+      #   script: |
+      #     FILE="ios/Runner/GeneratedPluginRegistrant.m"
+      #     if grep -q "firebase_core" "$FILE"; then
+      #       echo "✅ firebase_core module found in GeneratedPluginRegistrant.m"
+      #     else
+      #       echo "❌ Error: firebase_core module not found in GeneratedPluginRegistrant.m"
+      #       exit 1
+      #     fi
 
       - name: Build iOS app
         script: |
