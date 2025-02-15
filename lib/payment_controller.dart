@@ -21,6 +21,8 @@ class PaymentController extends GetxController {
   final OtherSettings otherSettings = OtherSettings();
 
   var userName = ''.obs;
+  var mobile_number = ''.obs;
+  var email_id = ''.obs;
 
   int subscriptionAmount = 0;
   String paymentDescription = '';
@@ -60,6 +62,8 @@ class PaymentController extends GetxController {
     final prefs = await SharedPreferences.getInstance();
     userName.value = prefs.getString('name') ?? 'User Name';
     razorpayKey = prefs.getString('razorpay_key') ?? '';
+    mobile_number.value = prefs.getString('mobile_number') ?? '';
+    email_id.value = prefs.getString('email_id') ?? '';
   }
 
   String _generateReferenceId() {
@@ -71,8 +75,35 @@ class PaymentController extends GetxController {
     return 'REF-$timestamp-$randomString';
   }
 
-  void openCheckout(
-      int amount, String description, int schemeId, String title) {
+  Future<void> createOrderAndPay(
+      int amount, String description, int schemeId, String title) async {
+    final url = '$apiUrl/create-order';
+    final prefs = await SharedPreferences.getInstance();
+
+    var token = prefs.getString('token');
+    var response = await http.post(
+      Uri.parse(url),
+      body: jsonEncode({'amount': amount}),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token'
+      },
+    );
+
+    print('-------------------------------------------');
+    print(response.statusCode);
+    print(jsonDecode(response.body));
+    print('----------------------------------------------------');
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+
+      openCheckout(amount, description, schemeId, title, data['order_id']);
+    }
+  }
+
+  void openCheckout(int amount, String description, int schemeId, String title,
+      String orderId) {
     subscriptionAmount = amount;
     paymentDescription = description;
     paymentSchemeId = schemeId;
@@ -82,13 +113,15 @@ class PaymentController extends GetxController {
       'amount': subscriptionAmount,
       'name': 'PEAK',
       'description': title,
+      'order_id': orderId,
       'prefill': {
-        'contact': defaultPrefillContact,
-        'email': defaultPrefillEmail,
+        'contact': mobile_number.value,
+        'email': email_id.value,
       },
       'external': {
         'wallets': ['paytm']
       },
+      'payment_capture': '1',
     };
 
     try {

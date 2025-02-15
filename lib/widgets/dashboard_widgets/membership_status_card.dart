@@ -258,7 +258,7 @@ class MembershipStatusCard extends StatelessWidget {
                     onPressed: () {
                       final PaymentController controller =
                           Get.put(PaymentController());
-                      controller.openCheckout(
+                      controller.createOrderAndPay(
                           amount, description, schemeId, 'Peak Subscription');
                     },
                     style: TextButton.styleFrom(
@@ -276,7 +276,7 @@ class MembershipStatusCard extends StatelessWidget {
                     onPressed: () {
                       final PaymentController controller =
                           Get.put(PaymentController());
-                      controller.openCheckout(
+                      controller.createOrderAndPay(
                           amount, description, schemeId, 'Peak Subscription');
                     },
                     style: TextButton.styleFrom(
@@ -299,7 +299,7 @@ class MembershipStatusCard extends StatelessWidget {
                     onPressed: () {
                       final PaymentController controller =
                           Get.put(PaymentController());
-                      controller.openCheckout(
+                      controller.createOrderAndPay(
                           amount, description, schemeId, 'Peak Subscription');
                     },
                     style: TextButton.styleFrom(

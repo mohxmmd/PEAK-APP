@@ -199,7 +199,7 @@ class DonationCard extends StatelessWidget {
                     int parsedAmount =
                         (double.parse(donationAmount) * 100).toInt();
 
-                    controller.openCheckout(parsedAmount, 'Fundraiser',
+                    controller.createOrderAndPay(parsedAmount, 'Fundraiser',
                         donationSchemeId, donationTitle);
                   },
                   style: TextButton.styleFrom(

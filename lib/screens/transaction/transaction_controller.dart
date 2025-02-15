@@ -69,6 +69,11 @@ class TransactionController extends GetxController {
   void fetchTransactions() async {
     try {
       Map<String, dynamic> response = await otherSettings.fetchTransactions();
+      print(
+          'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
+      print(response);
+      print(
+          'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
 
       if (response['success'] == true && response['data'] != null) {
         List<dynamic> data = response['data'];

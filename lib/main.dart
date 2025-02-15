@@ -1,6 +1,6 @@
-// import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 // import 'package:firebase_analytics/firebase_analytics.dart';
-// import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -20,19 +20,19 @@ Future<void> main() async {
   await _loadEnvironmentVariables();
   _setDeviceOrientation();
   _setSystemUIOverlayStyle();
-  // _initializeControllers();
+  _initializeControllers();
   runApp(const MyApp());
 }
 
 Future<void> _initializeFirebase() async {
   try {
-    // await Firebase.initializeApp(
-    //     options: DefaultFirebaseOptions.currentPlatform);
-    // debugPrint('Firebase initialized successfully.');
+    await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform);
+    debugPrint('Firebase initialized successfully.');
 
     // Set up Crashlytics
-    // FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
-    // FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+    FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
 
     // Initialize Firebase Analytics
     // FirebaseAnalytics analytics = FirebaseAnalytics.instance;
@@ -84,16 +84,16 @@ void _setSystemUIOverlayStyle() {
   }
 }
 
-// void _initializeControllers() {
-//   try {
-//     Get.put(SettingsController());
-//     NotificationService().initNotifications();
-//     debugPrint('Controllers and notification service initialized.');
-//   } catch (e) {
-//     debugPrint('❌Error initializing controllers or notification service: $e');
-//     FirebaseCrashlytics.instance.recordError(e, null);
-//   }
-// }
+void _initializeControllers() {
+  try {
+    Get.put(SettingsController());
+    NotificationService().initNotifications();
+    debugPrint('Controllers and notification service initialized.');
+  } catch (e) {
+    debugPrint('❌Error initializing controllers or notification service: $e');
+    FirebaseCrashlytics.instance.recordError(e, null);
+  }
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

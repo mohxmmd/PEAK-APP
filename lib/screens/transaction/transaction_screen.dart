@@ -170,7 +170,8 @@ class HelpCenterScreen extends StatelessWidget {
                                                 .format(dateTime);
                                         final String formattedTime =
                                             DateFormat('hh:mm a')
-                                                .format(dateTime);
+                                                .format(dateTime.toLocal());
+
                                         return '$formattedDate\n$formattedTime';
                                       } catch (e) {
                                         return 'Invalid Date';

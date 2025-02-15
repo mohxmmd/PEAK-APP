@@ -47,6 +47,8 @@ class SplashController extends GetxController {
       final key = await otherSettings.fetchRazorpayKey();
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString('razorpay_key', key);
+      print('---------------------------------------------------');
+      print(key);
 
       debugPrint('Razorpay key stored successfully');
     } catch (e) {
