@@ -1,7 +1,7 @@
 name: peak_app
 description: "A new Flutter project."
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
-version: 1.0.0+1
+version: 1.0.0+9
 
 environment:
   sdk: ^3.5.4
@@ -62,6 +62,7 @@ flutter:
     - assets/images/icons/settings.png
     - assets/images/icons/about.png
     - assets/images/icons/transaction.png
+    - assets/icon/launcher_icon.png
 
   fonts:
     - family: Urbanist
@@ -75,10 +76,10 @@ flutter_launcher_icons:
   ios: true
   image_path: "assets/images/launcher-logo-new.png"
   adaptive_icon_background: "#121A27"
-  adaptive_icon_foreground: "assets/icon/icon.png"
+  adaptive_icon_foreground: "assets/icon/launcher_icon.png"
 
 flutter_native_splash:
   color: "#121A27" # Your splash background color
-  image: "assets/images/launcher-logo-new.png"
+  image: "assets/icon/launcher_icon.png"
   android: true
   ios: true
