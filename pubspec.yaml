@@ -1,7 +1,7 @@
 name: peak_app
 description: "A new Flutter project."
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
-version: 1.0.0+9
+version: 1.0.0+2
 
 environment:
   sdk: ^3.5.4
@@ -74,7 +74,7 @@ flutter:
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: "assets/images/launcher-logo-new.png"
+  image_path: "assets/icon/launcher_icon.png"
   adaptive_icon_background: "#121A27"
   adaptive_icon_foreground: "assets/icon/launcher_icon.png"
 
