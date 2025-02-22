@@ -48,9 +48,9 @@
 
 	<!-- Permissions for Camera and Photo Library -->
 	<key>NSCameraUsageDescription</key>
-	<string>We need access to your camera to take photos.</string>
+	<string>The app uses the camera to let you take or upload a profile picture for your account.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>We need access to your photo library to select and upload photos.</string>
+	<string>Allow access to your photo library to upload images for your profile picture.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>We need permission to save photos to your gallery.</string>
 
