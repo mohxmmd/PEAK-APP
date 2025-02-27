@@ -96,4 +96,36 @@ class UserService {
       // ignore: empty_catches
     } catch (e) {}
   }
+
+  Future<bool> deleteAccount() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    int? memberId = prefs.getInt('member_id');
+    var token = prefs.getString('token');
+
+    if (memberId == null || token == null) {
+      return false; // If memberId or token is missing, return false
+    }
+
+    try {
+      final url = Uri.parse('$apiUrl/members/$memberId');
+      final response = await http.delete(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 204) {
+        // If the account is successfully deleted, return true
+        return true;
+      } else {
+        // If the response status code is not 200 or 204, return false
+        return false;
+      }
+    } catch (e) {
+      // If an exception occurs, return false
+      return false;
+    }
+  }
 }

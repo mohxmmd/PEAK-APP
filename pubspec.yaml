@@ -1,7 +1,7 @@
 name: peak_app
-description: "A new Flutter project."
+description: "PEAK helps registered members stay connected, renew memberships, and support community—all in one secure platform."
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
-version: 1.0.0+3
+version: 1.0.0+4
 
 environment:
   sdk: ^3.5.4
@@ -79,7 +79,7 @@ flutter_launcher_icons:
   adaptive_icon_foreground: "assets/icon/launcher_icon.png"
 
 flutter_native_splash:
-  color: "#121A27" # Your splash background color
+  color: "#121A27"
   image: "assets/icon/launcher_icon.png"
   android: true
   ios: true

@@ -24,4 +24,5 @@ class Routes {
   static const String helpCenterScreen = '/helpCenterScreen';
   static const String thanksScreen = '/thanksScreen';
   static const String paymentSuccessScreen = '/payemntSuccessScreen';
+  static const String deleteAccountScreen = '/deleteAccountScreen';
 }

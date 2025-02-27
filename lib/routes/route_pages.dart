@@ -1,4 +1,5 @@
 import 'package:get/get_navigation/src/routes/get_route.dart';
+import 'package:peak_app/screens/profile/delete_account_screen.dart';
 import 'package:peak_app/screens/splash/splash_screen.dart';
 import 'package:peak_app/screens/login/login_screen.dart';
 import 'package:peak_app/screens/otp/otp_screen.dart';
@@ -93,6 +94,10 @@ class RoutePageList {
     GetPage(
       name: Routes.paymentSuccessScreen,
       page: () => PaymentSuccessScreen(),
+    ),
+    GetPage(
+      name: Routes.deleteAccountScreen,
+      page: () => DeleteAccountScreen(),
     ),
   ];
 }

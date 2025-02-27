@@ -1,8 +1,18 @@
+import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:peak_app/utils/screen_imports.dart';
 import 'package:peak_app/widgets/back_button.dart';
 
 class AboutsScreen extends StatelessWidget {
   const AboutsScreen({super.key});
+
+  // Function to open the website
+  Future<void> _launchWebsite() async {
+    final Uri url = Uri.parse('https://www.teampeak.in/');
+    if (!await launchUrl(url)) {
+      throw Exception('Could not launch $url');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +90,19 @@ class AboutsScreen extends StatelessWidget {
                             color: const Color.fromARGB(179, 75, 75, 75),
                             height: 1.6,
                           ),
+                    ),
+                    const SizedBox(height: 16.0),
+                    // Clickable link to the website
+                    GestureDetector(
+                      onTap: _launchWebsite,
+                      child: Text(
+                        'Visit our website: https://www.teampeak.in/',
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              fontSize: 15,
+                              color: const Color(
+                                  0xFF90C764), // Make it look like a link
+                            ),
+                      ),
                     ),
                     const SizedBox(height: 24.0),
                   ],

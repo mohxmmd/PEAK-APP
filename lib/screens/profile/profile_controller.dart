@@ -136,6 +136,10 @@ class ProfileController extends GetxController {
     Get.toNamed(Routes.additionalInfoScreen);
   }
 
+  void goToDeleteAccount() {
+    Get.toNamed(Routes.deleteAccountScreen);
+  }
+
   final _isLoading = false.obs;
   bool get isLoading => _isLoading.value;
 }

@@ -90,11 +90,6 @@ class PaymentController extends GetxController {
       },
     );
 
-    print('-------------------------------------------');
-    print(response.statusCode);
-    print(jsonDecode(response.body));
-    print('----------------------------------------------------');
-
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
 

@@ -110,6 +110,14 @@ class ProfileScreen extends StatelessWidget {
                                 ),
                                 _buildDivider(size),
                                 _buildModernOption(
+                                  'delete_account'.tr,
+                                  Icons.delete,
+                                  controller.goToDeleteAccount,
+                                  size,
+                                  const Color.fromARGB(189, 211, 70, 98),
+                                ),
+                                _buildDivider(size),
+                                _buildModernOption(
                                   'logout'.tr,
                                   Icons.logout_rounded,
                                   logoutController.logout,

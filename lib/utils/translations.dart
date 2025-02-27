@@ -161,6 +161,7 @@ class AppTranslations extends Translations {
           'personal_info': 'Personal Information',
           'professional_info': 'Professional Information',
           'additional_info': 'Additional Information',
+          'delete_account': 'Delete Account',
           'logout': 'Log out',
           'change_language': 'Change Language',
         },
@@ -329,6 +330,7 @@ class AppTranslations extends Translations {
           'additional_info': 'മറ്റ്  വിവരങ്ങൾ',
           'logout': 'ലോഗ് ഔട്ട്',
           'change_language': 'ഭാഷ മാറ്റുക',
+          'delete_account': 'ഡിലീറ്റ് അക്കൗണ്ട്',
         },
       };
 }
