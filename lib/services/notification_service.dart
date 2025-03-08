@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:peak_app/screens/notification/notification_controller.dart';
@@ -8,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 // Background message handler
 Future<void> handleBackgroundMessage(RemoteMessage message) async {
+  await Firebase.initializeApp(); // Required for background messages on iOS
   debugPrint('Background Notification - Title: ${message.notification?.title}');
   debugPrint('Background Notification - Body: ${message.notification?.body}');
   debugPrint('Background Notification - Payload: ${message.data}');
@@ -20,8 +22,16 @@ class NotificationService {
 
   Future<void> initNotifications() async {
     // Request permission for notifications
-    NotificationSettings settings =
-        await _firebaseMessaging.requestPermission();
+    NotificationSettings settings = await _firebaseMessaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+
     debugPrint(
         'Notification permission status: ${settings.authorizationStatus}');
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -44,12 +54,15 @@ class NotificationService {
     // Configure Flutter Local Notifications
     const AndroidInitializationSettings androidSettings =
         AndroidInitializationSettings('@mipmap/ic_launcher');
+    const DarwinInitializationSettings iosSettings =
+        DarwinInitializationSettings(); // iOS configuration
+
     const InitializationSettings initializationSettings =
-        InitializationSettings(android: androidSettings);
+        InitializationSettings(android: androidSettings, iOS: iosSettings);
+
     await _localNotificationsPlugin.initialize(
       initializationSettings,
       onDidReceiveNotificationResponse: (NotificationResponse response) {
-        // Navigate to Notification Screen when notification is clicked
         if (response.payload != null) {
           debugPrint('Notification payload: ${response.payload}');
           Get.to(() => const NotificationScreen());
@@ -58,7 +71,7 @@ class NotificationService {
       },
     );
 
-    // Listen for foreground notifications
+    // Listen for foreground notifications (iOS and Android)
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       debugPrint(
           'Foreground Notification - Title: ${message.notification?.title}');
@@ -103,8 +116,10 @@ class NotificationService {
       priority: Priority.high,
     );
 
+    const DarwinNotificationDetails iosDetails = DarwinNotificationDetails();
+
     const NotificationDetails notificationDetails =
-        NotificationDetails(android: androidDetails);
+        NotificationDetails(android: androidDetails, iOS: iosDetails);
 
     await _localNotificationsPlugin.show(
       DateTime.now().hashCode,
