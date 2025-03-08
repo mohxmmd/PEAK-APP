@@ -15,7 +15,7 @@ class PersonalInfoScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      resizeToAvoidBottomInset: true, 
+      resizeToAvoidBottomInset: true,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -98,12 +98,11 @@ class PersonalInfoScreen extends StatelessWidget {
           controller: controller.fathersNameController,
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return 'error-fathers-name'.tr; 
+              return 'error-fathers-name'.tr;
             } else if (!RegExp(r"^[a-zA-Z\s]+$").hasMatch(value)) {
-              return 'invalid-fathers-name'
-                  .tr; 
+              return 'invalid-fathers-name'.tr;
             }
-            return null; 
+            return null;
           },
         ),
         const SizedBox(height: 20),
@@ -115,12 +114,12 @@ class PersonalInfoScreen extends StatelessWidget {
           isNumeric: true,
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return 'error-mobile-number'.tr; 
-            } else if (!RegExp(r"^\+?\d{1,3}[\s\-]?\d{10}$").hasMatch(value)) {
-              return 'invalid-mobile-number'
-                  .tr; 
+              return 'error-mobile-number'.tr;
+            } else if (!RegExp(r"^(?:\+?\d{7,15}|00\d{7,15})$")
+                .hasMatch(value)) {
+              return 'invalid-mobile-number'.tr;
             }
-            return null; 
+            return null;
           },
         ),
         const SizedBox(height: 20),
@@ -147,12 +146,12 @@ class PersonalInfoScreen extends StatelessWidget {
           isNumeric: true,
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return 'error-contact-number'.tr; 
-            } else if (!RegExp(r"^\+?\d{1,3}[\s\-]?\d{10}$").hasMatch(value)) {
-              return 'invalid-mobile-number'
-                  .tr; 
+              return 'error-contact-number'.tr;
+            } else if (!RegExp(r"^(?:\+?\d{7,15}|00\d{7,15})$")
+                .hasMatch(value)) {
+              return 'invalid-mobile-number'.tr;
             }
-            return null; 
+            return null;
           },
         ),
         const SizedBox(height: 20),

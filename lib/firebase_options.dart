@@ -41,49 +41,48 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyD7SH8o71UzdH5_0lGSgTcA7BwGoqkvrf8',
-    appId: '1:849461771877:web:1b6956bc2a3d7d4acd108c',
-    messagingSenderId: '849461771877',
-    projectId: 'peak-fb11c',
-    authDomain: 'peak-fb11c.firebaseapp.com',
-    storageBucket: 'peak-fb11c.firebasestorage.app',
-    measurementId: 'G-KDMSD5S6K6',
+    apiKey: 'AIzaSyA8fo2tbKTVBXdSIiuALtrmmNAKbto2ZsQ',
+    appId: '1:689652938526:web:678d759a5ee40cdf5f3b0f',
+    messagingSenderId: '689652938526',
+    projectId: 'peak-society',
+    authDomain: 'peak-society.firebaseapp.com',
+    storageBucket: 'peak-society.firebasestorage.app',
+    measurementId: 'G-KPW27GYLPZ',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyASUCI-ukQoSnqwdqgw6dvGmnt9nTHfKSw',
-    appId: '1:849461771877:android:0cf82673a7aa3034cd108c',
-    messagingSenderId: '849461771877',
-    projectId: 'peak-fb11c',
-    storageBucket: 'peak-fb11c.firebasestorage.app',
+    apiKey: 'AIzaSyB02zG-8GmBLyxF2X48BLrMEBX-I9zsKe4',
+    appId: '1:689652938526:android:15b2555fa3b1b4d75f3b0f',
+    messagingSenderId: '689652938526',
+    projectId: 'peak-society',
+    storageBucket: 'peak-society.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAgB_2_N2UXw4sLSfgYmaW7KZJSf-CiKY8',
-    appId: '1:849461771877:ios:cdfb5a9deb317555cd108c',
-    messagingSenderId: '849461771877',
-    projectId: 'peak-fb11c',
-    storageBucket: 'peak-fb11c.firebasestorage.app',
-    iosBundleId: 'com.bluewhyte.peak',
+    apiKey: 'AIzaSyCW_qgXWuJsxII3wiXamLukhR3Ol5x9bCE',
+    appId: '1:689652938526:ios:374e7cea9b357c7b5f3b0f',
+    messagingSenderId: '689652938526',
+    projectId: 'peak-society',
+    storageBucket: 'peak-society.firebasestorage.app',
+    iosBundleId: 'com.peak.peakApp',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyAgB_2_N2UXw4sLSfgYmaW7KZJSf-CiKY8',
-    appId: '1:849461771877:ios:d6f1430f03dae370cd108c',
-    messagingSenderId: '849461771877',
-    projectId: 'peak-fb11c',
-    storageBucket: 'peak-fb11c.firebasestorage.app',
+    apiKey: 'AIzaSyCW_qgXWuJsxII3wiXamLukhR3Ol5x9bCE',
+    appId: '1:689652938526:ios:3f829c9e1eee87d35f3b0f',
+    messagingSenderId: '689652938526',
+    projectId: 'peak-society',
+    storageBucket: 'peak-society.firebasestorage.app',
     iosBundleId: 'com.example.peakApp',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyD7SH8o71UzdH5_0lGSgTcA7BwGoqkvrf8',
-    appId: '1:849461771877:web:1b6956bc2a3d7d4acd108c',
-    messagingSenderId: '849461771877',
-    projectId: 'peak-fb11c',
-    authDomain: 'peak-fb11c.firebaseapp.com',
-    storageBucket: 'peak-fb11c.firebasestorage.app',
-    measurementId: 'G-KDMSD5S6K6',
+    apiKey: 'AIzaSyA8fo2tbKTVBXdSIiuALtrmmNAKbto2ZsQ',
+    appId: '1:689652938526:web:3e91ecb0c2ad110b5f3b0f',
+    messagingSenderId: '689652938526',
+    projectId: 'peak-society',
+    authDomain: 'peak-society.firebaseapp.com',
+    storageBucket: 'peak-society.firebasestorage.app',
+    measurementId: 'G-F84NEY8YZ8',
   );
-
 }

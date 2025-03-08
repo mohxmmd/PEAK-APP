@@ -23,7 +23,7 @@ class RegistrationController3 extends GetxController {
   void onInit() {
     super.onInit();
     _fetchMemberId();
-    // NotificationService().initNotifications();
+    NotificationService().initNotifications();
   }
 
   @override
@@ -34,6 +34,12 @@ class RegistrationController3 extends GetxController {
     planToStopExpat.dispose();
 
     super.onClose();
+  }
+
+  String normalizePhoneNumber(String value) {
+    return value
+        .replaceAll(RegExp(r'[\+\s\-]'), '')
+        .replaceFirst(RegExp(r'^0{1,2}'), '');
   }
 
   Future<void> _fetchMemberId() async {
@@ -50,7 +56,8 @@ class RegistrationController3 extends GetxController {
 
     Map<String, dynamic> registrationData = {
       "emergency_contact_name": emergencyContactName.text,
-      "emergency_contact_number": emergencyContactNumber.text,
+      "emergency_contact_number":
+          normalizePhoneNumber(emergencyContactNumber.text),
       "expatriate_since": expatriateSince.text,
       "plan_stop_expat": planToStopExpat.text,
       "registration_completed": 3,

@@ -45,6 +45,10 @@ class RegistrationController2 extends GetxController {
     super.onClose();
   }
 
+  String normalizePhoneNumber(String value) {
+    return value.replaceAll(RegExp(r'[\+\s\-]'), '').replaceFirst('00', '');
+  }
+
   Future<void> _fetchMemberId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     memberId.value = prefs.getInt('member_id') ?? 0;

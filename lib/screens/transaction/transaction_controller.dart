@@ -24,7 +24,7 @@ class TransactionController extends GetxController {
   String subscriptionTitle = 'Payment for Subscription';
   String subscriptionDescription = 'You have paid for the subscription.';
   String fundRaiserTitle = 'Payment for Fundraiser';
-  String fundRaiserDescription = 'You have donated for the Fund Raiser';
+  String fundRaiserDescription = 'You have paid for the Fund Raiser';
 
   final apiUrl = dotenv.env['API_URL'];
 

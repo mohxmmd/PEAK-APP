@@ -25,6 +25,7 @@ class PaymentController extends GetxController {
   var email_id = ''.obs;
 
   int subscriptionAmount = 0;
+  int currentTransactionId = 0;
   String paymentDescription = '';
   int paymentSchemeId = 0;
   String razorpayKey = '';
@@ -37,11 +38,9 @@ class PaymentController extends GetxController {
     super.onInit();
     _initializeRazorpay();
     _loadUserData();
-
     if (apiUrl == null) {
       logError("API_URL is not set in the .env file");
     }
-
     tz.initializeTimeZones();
   }
 
@@ -79,6 +78,9 @@ class PaymentController extends GetxController {
       int amount, String description, int schemeId, String title) async {
     final url = '$apiUrl/create-order';
     final prefs = await SharedPreferences.getInstance();
+    final referenceId = _generateReferenceId();
+
+    _storeTransaction(amount, description, schemeId, referenceId);
 
     var token = prefs.getString('token');
     var response = await http.post(
@@ -92,16 +94,20 @@ class PaymentController extends GetxController {
 
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
-
-      openCheckout(amount, description, schemeId, title, data['order_id']);
+      openCheckout(
+          amount, description, schemeId, title, data['order_id'], referenceId);
     }
   }
 
   void openCheckout(int amount, String description, int schemeId, String title,
-      String orderId) {
+      String orderId, String referenceId) async {
     subscriptionAmount = amount;
     paymentDescription = description;
     paymentSchemeId = schemeId;
+
+    final prefs = await SharedPreferences.getInstance();
+    final memberId = prefs.getInt('member_id') ?? 0;
+    final memberName = prefs.getString('name') ?? 'Anonymous';
 
     final options = {
       'key': razorpayKey,
@@ -112,6 +118,11 @@ class PaymentController extends GetxController {
       'prefill': {
         'contact': mobile_number.value,
         'email': email_id.value,
+      },
+      'notes': {
+        'name': memberName,
+        'member_id': memberId,
+        'reference_id': referenceId,
       },
       'external': {
         'wallets': ['paytm']
@@ -129,7 +140,7 @@ class PaymentController extends GetxController {
   void _handlePaymentSuccess(PaymentSuccessResponse response) async {
     logInfo("Payment Successful");
     dashboardController.refreshData();
-    await _storeTransaction(response, true);
+    await _updateTransaction(response, true);
 
     if (paymentDescription == 'Subscription Fee') {
       await _updateExpiryDate();
@@ -141,19 +152,66 @@ class PaymentController extends GetxController {
 
   void _handlePaymentError(PaymentFailureResponse response) async {
     logError("Payment Failed");
-    await _storeTransaction(response, false);
+    print(response.error.toString());
+    await _updateTransaction(response, false);
   }
 
   void _handleExternalWallet(ExternalWalletResponse response) {
     logInfo("External Wallet Selected: ${response.walletName}");
   }
 
-  Future<void> _storeTransaction(dynamic response, bool isSuccess) async {
-    final url = '$apiUrl/transactions';
+  // Future<void> _storeTransaction(dynamic response, bool isSuccess) async {
+  //   final url = '$apiUrl/transactions';
+  //   final prefs = await SharedPreferences.getInstance();
+  //   final memberId = prefs.getInt('member_id') ?? 0;
+  //   final memberName = prefs.getString('name') ?? 'Anonymous';
+  //   final referenceId = _generateReferenceId();
+  //   var token = prefs.getString('token');
+
+  //   final data = {
+  //     'member_id': memberId,
+  //     'scheme_id': int.tryParse(paymentSchemeId.toString()),
+  //     'member_name': memberName,
+  //     'razorpay_payment_id': isSuccess ? response.paymentId : null,
+  //     'razorpay_signature': isSuccess ? response.signature : null,
+  //     'reference_id': referenceId,
+  //     'amount': subscriptionAmount / 100,
+  //     'currency': currency,
+  //     'status': isSuccess ? '2' : '0',
+  //     'description': isSuccess
+  //         ? paymentDescription
+  //         : 'Error Code:${response.code}, Error Message:${response.message}',
+  //   };
+
+  //   try {
+  //     final apiResponse = await http.post(
+  //       Uri.parse(url),
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         'Authorization': 'Bearer $token'
+  //       },
+  //       body: json.encode(data),
+  //     );
+
+  //     if (apiResponse.statusCode == 200 || apiResponse.statusCode == 201) {
+  //       logInfo("Transaction stored successfully.");
+  //       if (isSuccess) dashboardController.loadUserData();
+  //       final transactionController = Get.put(TransactionController());
+  //       transactionController.fetchTransactions();
+  //     } else {
+  //       logError(
+  //           "Failed to store transaction: ${apiResponse.statusCode}\n${apiResponse.body}");
+  //     }
+  //   } catch (e) {
+  //     logError("Error storing transaction: $e");
+  //   }
+  // }
+
+  Future<void> _updateTransaction(dynamic response, bool isSuccess) async {
+    final url = '$apiUrl/transactions/$currentTransactionId?_method=PATCH';
     final prefs = await SharedPreferences.getInstance();
     final memberId = prefs.getInt('member_id') ?? 0;
     final memberName = prefs.getString('name') ?? 'Anonymous';
-    final referenceId = _generateReferenceId();
     var token = prefs.getString('token');
 
     final data = {
@@ -162,7 +220,6 @@ class PaymentController extends GetxController {
       'member_name': memberName,
       'razorpay_payment_id': isSuccess ? response.paymentId : null,
       'razorpay_signature': isSuccess ? response.signature : null,
-      'reference_id': referenceId,
       'amount': subscriptionAmount / 100,
       'currency': currency,
       'status': isSuccess ? '2' : '0',
@@ -186,6 +243,59 @@ class PaymentController extends GetxController {
         if (isSuccess) dashboardController.loadUserData();
         final transactionController = Get.put(TransactionController());
         transactionController.fetchTransactions();
+      } else {
+        logError(
+            "Failed to store transaction: ${apiResponse.statusCode}\n${apiResponse.body}");
+      }
+    } catch (e) {
+      logError("Error storing transaction: $e");
+    }
+  }
+
+  Future<void> _storeTransaction(
+      int amount, String description, int schemeId, String referenceId) async {
+    final url = '$apiUrl/transactions';
+    final prefs = await SharedPreferences.getInstance();
+    final memberId = prefs.getInt('member_id') ?? 0;
+    final memberName = prefs.getString('name') ?? 'Anonymous';
+
+    var token = prefs.getString('token');
+
+    final data = {
+      'member_id': memberId,
+      'scheme_id': schemeId,
+      'member_name': memberName,
+      'razorpay_payment_id': null,
+      'razorpay_signature': null,
+      'reference_id': referenceId,
+      'amount': subscriptionAmount / 100,
+      'currency': currency,
+      'status': '1',
+      'description': 'pending',
+    };
+
+    try {
+      final apiResponse = await http.post(
+        Uri.parse(url),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token'
+        },
+        body: json.encode(data),
+      );
+
+      if (apiResponse.statusCode == 200 || apiResponse.statusCode == 201) {
+        final responseData =
+            jsonDecode(apiResponse.body); // Decode JSON response
+
+        if (responseData['success'] == true) {
+          currentTransactionId =
+              responseData['data']['transaction_id']; // Extract transaction_id
+
+          logInfo("Transaction stored successfully. ID: $currentTransactionId");
+        }
+
+        logInfo("Transaction stored successfully.");
       } else {
         logError(
             "Failed to store transaction: ${apiResponse.statusCode}\n${apiResponse.body}");

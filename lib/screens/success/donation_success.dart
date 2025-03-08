@@ -42,7 +42,7 @@ class ThanksScreen extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           const Text(
-            'Thank You for Your Donation!',
+            'Thank You for Your Payment!',
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Color.fromARGB(220, 30, 29, 29),

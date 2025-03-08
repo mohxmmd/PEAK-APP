@@ -33,6 +33,10 @@ class ProfessionalInfoController extends GetxController {
     _fetchUserData();
   }
 
+  String normalizePhoneNumber(String value) {
+    return value.replaceAll(RegExp(r'[\+\s\-]'), '').replaceFirst('00', '');
+  }
+
   Future<void> _fetchUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     memberId.value = prefs.getInt('member_id') ?? 0;

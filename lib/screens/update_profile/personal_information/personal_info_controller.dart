@@ -29,6 +29,12 @@ class PersonalInfoController extends GetxController {
     _fetchUserData();
   }
 
+  String normalizePhoneNumber(String value) {
+    return value
+        .replaceAll(RegExp(r'[\+\s\-]'), '')
+        .replaceFirst(RegExp(r'^0{1,2}'), '');
+  }
+
   Future<void> _fetchUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     memberId.value = prefs.getInt('member_id') ?? 0;
@@ -42,7 +48,6 @@ class PersonalInfoController extends GetxController {
     maritalStatusController.text = prefs.getString('marital_status') ?? '';
     maritalStatus.value = prefs.getString('marital_status') ?? '';
     maritalStatusController.text = maritalStatus.value;
-
   }
 
   void updateMaritalStatus(String status) {
@@ -56,10 +61,10 @@ class PersonalInfoController extends GetxController {
     Map<String, dynamic> updatedData = {
       'local_address': localAddressController.text,
       'fathers_name': fathersNameController.text,
-      'mobile_number': mobileNumberController.text,
-      'local_contact_number': localContactController.text,
+      'mobile_number': normalizePhoneNumber(mobileNumberController.text),
+      'local_contact_number': normalizePhoneNumber(localContactController.text),
       'email_id': emailAddressController.text,
-      'marital_status': maritalStatusController.text, 
+      'marital_status': maritalStatusController.text,
     };
 
     try {

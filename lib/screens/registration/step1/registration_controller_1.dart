@@ -45,6 +45,12 @@ class Registration1Controller extends GetxController {
     super.onClose();
   }
 
+  String normalizePhoneNumber(String value) {
+    return value
+        .replaceAll(RegExp(r'[\+\s\-]'), '')
+        .replaceFirst(RegExp(r'^0{1,2}'), '');
+  }
+
   Future<void> _fetchMemberId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     memberId.value = prefs.getInt('member_id') ?? 0;
@@ -66,8 +72,8 @@ class Registration1Controller extends GetxController {
     Map<String, dynamic> registrationData = {
       'local_address': localAddressController.text,
       'fathers_name': fathersNameController.text,
-      'mobile_number': mobileNumberController.text,
-      'local_contact_number': localContactController.text,
+      'mobile_number': normalizePhoneNumber(mobileNumberController.text),
+      'local_contact_number': normalizePhoneNumber(localContactController.text),
       'email_id': emailAddressController.text,
       'marital_status': maritalStatusController.text,
       'registration_completed': 1,

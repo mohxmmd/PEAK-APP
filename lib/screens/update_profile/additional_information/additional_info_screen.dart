@@ -14,7 +14,7 @@ class AdditionalInfoScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      resizeToAvoidBottomInset: true, 
+      resizeToAvoidBottomInset: true,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -88,13 +88,11 @@ class AdditionalInfoScreen extends StatelessWidget {
           controller: controller.emergencyContactName,
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return 'emergency_contact_name_error'
-                  .tr; 
+              return 'emergency_contact_name_error'.tr;
             } else if (!RegExp(r"^[a-zA-Z\s]+$").hasMatch(value)) {
-              return 'emergency_contact_name_invalid'
-                  .tr; 
+              return 'emergency_contact_name_invalid'.tr;
             }
-            return null; 
+            return null;
           },
         ),
         const SizedBox(height: 20),
@@ -108,7 +106,7 @@ class AdditionalInfoScreen extends StatelessWidget {
             if (value == null || value.isEmpty) {
               return 'emergency_contact_number_error'.tr;
             }
-            if (!RegExp(r'^\+?\d{10,15}$').hasMatch(value)) {
+            if (!RegExp(r"^(?:\+?\d{7,15}|00\d{7,15})$").hasMatch(value)) {
               return 'emergency_contact_number_invalid'.tr;
             }
             return null;

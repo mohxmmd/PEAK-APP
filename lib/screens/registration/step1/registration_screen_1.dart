@@ -88,7 +88,7 @@ class Registration1Screen extends StatelessWidget {
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'error-mobile-number'.tr; // Error if field is empty
-              } else if (!RegExp(r"^\+?\d{1,3}[\s\-]?\d{10}$")
+              } else if (!RegExp(r"^(?:\+?\d{7,15}|00\d{7,15})$")
                   .hasMatch(value)) {
                 return 'invalid-mobile-number'
                     .tr; // Error if not a valid mobile number with country code
@@ -106,7 +106,7 @@ class Registration1Screen extends StatelessWidget {
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'error-contact-number'.tr; // Error if field is empty
-              } else if (!RegExp(r"^\+?\d{1,3}[\s\-]?\d{10}$")
+              } else if  (!RegExp(r"^(?:\+?\d{7,15}|00\d{7,15})$")
                   .hasMatch(value)) {
                 return 'invalid-mobile-number'
                     .tr; // Error if not a valid mobile number with country code
@@ -124,6 +124,7 @@ class Registration1Screen extends StatelessWidget {
               if (value == null || value.isEmpty) {
                 return 'error-email'.tr;
               }
+
               // Email validation regex
               final emailRegExp =
                   RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');

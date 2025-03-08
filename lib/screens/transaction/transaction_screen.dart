@@ -99,7 +99,7 @@ class HelpCenterScreen extends StatelessWidget {
                                   }
 
                                   return transaction['descriptoin'] ??
-                                      'No Title';
+                                      'Payment Pending';
                                 })(),
                                 style: Theme.of(context)
                                     .textTheme
@@ -123,7 +123,7 @@ class HelpCenterScreen extends StatelessWidget {
                                           .startsWith('Error')) {
                                     return 'Your payment could not be processed. Please try again or contact support for assistance.';
                                   }
-                                  return 'No Description';
+                                  return 'Your payment could not be processed.';
                                 })(),
                                 style: Theme.of(context)
                                     .textTheme
@@ -143,7 +143,7 @@ class HelpCenterScreen extends StatelessWidget {
                                     amount;
                                     return '₹${amount.toStringAsFixed(2)}';
                                   }
-                                  return 'No Amount';
+                                  return '';
                                 })(),
                                 style: Theme.of(context)
                                     .textTheme

@@ -3,17 +3,17 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
-	<string>AIzaSyAgB_2_N2UXw4sLSfgYmaW7KZJSf-CiKY8</string>
+	<string>AIzaSyCW_qgXWuJsxII3wiXamLukhR3Ol5x9bCE</string>
 	<key>GCM_SENDER_ID</key>
-	<string>849461771877</string>
+	<string>689652938526</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.bluewhyte.peak</string>
 	<key>PROJECT_ID</key>
-	<string>peak-fb11c</string>
+	<string>peak-society</string>
 	<key>STORAGE_BUCKET</key>
-	<string>peak-fb11c.firebasestorage.app</string>
+	<string>peak-society.firebasestorage.app</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:849461771877:ios:cdfb5a9deb317555cd108c</string>
+	<string>1:689652938526:ios:8fe56c886524696e5f3b0f</string>
 </dict>
 </plist>

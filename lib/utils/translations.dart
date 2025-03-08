@@ -48,7 +48,7 @@ class AppTranslations extends Translations {
           'error-marital-status': 'Please select a marital status',
           'invalid-fathers-name': "Only letters and spaces are allowed",
           'invalid-mobile-number':
-              'Please enter a valid 10-digit mobile number with country code',
+              'Please enter a valid mobile number with country code',
           "error-invalid-email": "Please enter a valid email address",
 
           // Screen 2
@@ -213,7 +213,7 @@ class AppTranslations extends Translations {
           'invalid-fathers-name':
               'അക്ഷരങ്ങളും സ്പേസുകളും മാത്രമേ അനുവദിക്കപ്പെടൂ',
           "error-invalid-email": "ദയവായി ശരിയായ ഇമെയിൽ വിലാസം നൽകുക",
-          'invalid-mobile-number': 'ശരിയായ 10 അക്ക മൊബൈൽ നമ്പർ നൽകുക',
+          'invalid-mobile-number': 'ശരിയായ മൊബൈൽ നമ്പർ നൽകുക',
 
           // Screen2
           'highest_education': 'ഏറ്റവും ഉയർന്ന വിദ്യാഭ്യാസം',

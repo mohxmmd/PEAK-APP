@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:peak_app/services/user_service.dart';
 
 class AdditionalInfoController extends GetxController {
-
   final emergencyContactName = TextEditingController();
   final emergencyContactNumber = TextEditingController();
   final expatriateSince = TextEditingController();
@@ -26,9 +25,15 @@ class AdditionalInfoController extends GetxController {
     _fetchUserData();
   }
 
+  String normalizePhoneNumber(String value) {
+    return value
+        .replaceAll(RegExp(r'[\+\s\-]'), '')
+        .replaceFirst(RegExp(r'^0{1,2}'), '');
+  }
+
   Future<void> _fetchUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    memberId.value = prefs.getInt('member_id') ?? 0; 
+    memberId.value = prefs.getInt('member_id') ?? 0;
     await userService.saveUserDataToLocal();
 
     emergencyContactName.text = prefs.getString('emergency_contact_name') ?? '';
@@ -50,7 +55,8 @@ class AdditionalInfoController extends GetxController {
 
     Map<String, dynamic> updatedData = {
       'emergency_contact_name': emergencyContactName.text,
-      'emergency_contact_number': emergencyContactNumber.text,
+      'emergency_contact_number':
+          normalizePhoneNumber(emergencyContactNumber.text),
       'expatriate_since': expatriateSince.text,
       'plan_stop_expat': planToStopExpat.text,
     };
