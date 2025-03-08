@@ -60,11 +60,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyCW_qgXWuJsxII3wiXamLukhR3Ol5x9bCE',
-    appId: '1:689652938526:ios:374e7cea9b357c7b5f3b0f',
+    appId: '1:689652938526:ios:8fe56c886524696e5f3b0f',
     messagingSenderId: '689652938526',
     projectId: 'peak-society',
     storageBucket: 'peak-society.firebasestorage.app',
-    iosBundleId: 'com.peak.peakApp',
+    iosBundleId: 'com.bluewhyte.peak',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
@@ -85,4 +85,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'peak-society.firebasestorage.app',
     measurementId: 'G-F84NEY8YZ8',
   );
+
 }
