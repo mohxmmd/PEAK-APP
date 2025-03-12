@@ -63,7 +63,16 @@
 		<string>processing</string>
 		<string>remote-notification</string>
 	</array>
-	<key>NSUserNotificationsUsageDescription</key>
+
+	<!-- Required for APNs -->
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+
+	<!-- iOS Notification Permission -->
+	<key>NSPushNotificationsUsageDescription</key>
 	<string>We need permission to send you important notifications about updates, matches, and announcements.</string>
 
 </dict>

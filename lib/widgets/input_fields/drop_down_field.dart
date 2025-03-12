@@ -32,7 +32,11 @@ class CustomDropdownField extends StatelessWidget {
                 fontWeight: FontWeight.bold)),
         const SizedBox(height: 8),
         DropdownButtonFormField<String>(
-          value: options.contains(controller?.text) ? controller?.text : null,
+          value: (controller != null &&
+                  options.contains(controller!.text) &&
+                  controller!.text.isNotEmpty)
+              ? controller!.text
+              : null,
           decoration: InputDecoration(
             prefixIcon: Icon(icon, color: const Color(0xFF252C34)),
             hintText: hintText,

@@ -3,48 +3,62 @@ import Flutter
 import Firebase
 import UserNotifications
 
-@main
+@UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate {
   override func application(
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
-    
-    FirebaseApp.configure()  // Initialize Firebase
+      FirebaseApp.configure()
+      GeneratedPluginRegistrant.register(with: self)
 
-    // Set up push notifications
-    UNUserNotificationCenter.current().delegate = self
-    application.registerForRemoteNotifications()
-
-    GeneratedPluginRegistrant.register(with: self)
-    
-    return super.application(application, didFinishLaunchingWithOptions: launchOptions)
+      if #available(iOS 10.0, *) {
+          UNUserNotificationCenter.current().delegate = self
+          let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+          UNUserNotificationCenter.current().requestAuthorization(
+              options: authOptions,
+              completionHandler: { granted, error in
+                  if let error = error {
+                      print("Error requesting notification authorization: \(error)")
+                  }
+                  print("Notification permission granted: \(granted)")
+              }
+          )
+      } else {
+          let settings: UIUserNotificationSettings =
+              UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+          application.registerUserNotificationSettings(settings)
+      }
+      
+      application.registerForRemoteNotifications()
+      return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 
-  // Map APNs token for Firebase Cloud Messaging (IMPORTANT)
   override func application(
     _ application: UIApplication,
     didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
   ) {
-    Messaging.messaging().apnsToken = deviceToken
-  }
-
-  // Handle push notification permission failure
-  override func application(
-    _ application: UIApplication,
-    didFailToRegisterForRemoteNotificationsWithError error: Error
-  ) {
-    print("❌ Failed to register for remote notifications: \(error.localizedDescription)")
+      Messaging.messaging().apnsToken = deviceToken
+      print("APNS Token: \(deviceToken)")
   }
 }
 
-// For handling foreground notifications
+// Handle notification while app is in foreground
+@available(iOS 10, *)
 extension AppDelegate: UNUserNotificationCenterDelegate {
   func userNotificationCenter(
     _ center: UNUserNotificationCenter,
     willPresent notification: UNNotification,
     withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
   ) {
-    completionHandler([.alert, .badge, .sound])
+      completionHandler([.alert, .badge, .sound])
+  }
+
+  func userNotificationCenter(
+    _ center: UNUserNotificationCenter,
+    didReceive response: UNNotificationResponse,
+    withCompletionHandler completionHandler: @escaping () -> Void
+  ) {
+      completionHandler()
   }
 }
