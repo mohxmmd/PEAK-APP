@@ -23,6 +23,14 @@ class AppTranslations extends Translations {
           'reg-professional-info': 'Professional Information',
           'reg-additional-info': 'Additional Information',
           // Screen1
+          'name-label': 'Name',
+          'name-hint': 'Type your name',
+          'dob-label': 'Date of birth',
+          'dob-hint': 'Select your date of birth',
+          'blood-group-label': 'Blood group',
+          'blood-group-hint': 'Select your blood group',
+          'whatsapp-number-label': 'Whatsapp Number(with country code)',
+          'whatsapp-number-hint': 'Type your Whatsapp number',
 
           'local-address-label': 'Local Address',
           'local-address-hint': 'Type your local address',
@@ -40,6 +48,11 @@ class AppTranslations extends Translations {
           'marital-status-married': 'Married',
           'marital-status-divorced': 'Divorced',
           'marital-status-widowed': 'Widowed',
+
+          'error-name': 'Name is required',
+          'error-dob': 'Date of birth is required',
+          'error-blood-group': 'Blood group is required',
+
           'error-local-address': 'Local address is required',
           'error-fathers-name': "Father's name is required",
           'error-mobile-number': 'Mobile number is required',
@@ -187,6 +200,15 @@ class AppTranslations extends Translations {
 
           'reg-continue': 'തുടരുക',
           // Screen1
+          'name-label': 'പേര്',
+          'name-hint': 'നിങ്ങളുടെ പേര് നൽകുക',
+          'dob-label': 'ജനന തീയതി',
+          'dob-hint': 'നിങ്ങളുടെ ജനന തീയതി നൽകുക',
+          'blood-group-label': 'ബ്ലഡ് ഗ്രൂപ്പ്',
+          'blood-group-hint': 'നിങ്ങളുടെ ബ്ലഡ് ഗ്രൂപ്പ് നൽകുക',
+          'whatsapp-number-label': 'വാട്ട്സ്ആപ്പ് നമ്പർ(with country code)',
+          'whatsapp-number-hint': 'നിങ്ങളുടെ വാട്ട്സ്ആപ്പ് നമ്പർ നൽകുക',
+
           'local-address-label': 'പ്രാദേശിക വിലാസം',
           'local-address-hint': 'നിങ്ങളുടെ പ്രാദേശിക വിലാസം നൽകുക',
           'fathers-name-label': 'പിതാവിന്റെ പേര്',
@@ -204,6 +226,11 @@ class AppTranslations extends Translations {
           'marital-status-married': 'വിവാഹിതൻ/വിവാഹിത',
           'marital-status-divorced': 'മൊഴിഞ്ഞവൻ/മൊഴിഞ്ഞവൾ',
           'marital-status-widowed': 'വിധവൻ/വിധവ',
+
+          'error-name': 'പേര് നൽകേണ്ടതാണ്',
+          'error-dob': 'ജനന തീയതി നൽകേണ്ടതാണ്',
+          'error-blood-group': 'ബ്ലഡ് ഗ്രൂപ്പ് നൽകേണ്ടതാണ്',
+
           'error-local-address': 'പ്രാദേശിക വിലാസം നൽകേണ്ടതാണ്',
           'error-fathers-name': 'പിതാവിന്റെ പേര് നൽകേണ്ടതാണ്',
           'error-mobile-number': 'മൊബൈൽ നമ്പർ നൽകേണ്ടതാണ്',

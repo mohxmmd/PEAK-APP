@@ -7,6 +7,9 @@ import 'package:get/get.dart';
 import 'package:peak_app/services/user_service.dart';
 
 class Registration1Controller extends GetxController {
+  final nameController = TextEditingController();
+  final dobController = TextEditingController();
+  final bloodGroupController = TextEditingController();
   final localAddressController = TextEditingController();
   final fathersNameController = TextEditingController();
   final mobileNumberController = TextEditingController();
@@ -35,6 +38,9 @@ class Registration1Controller extends GetxController {
 
   @override
   void onClose() {
+    nameController.dispose();
+    dobController.dispose();
+    bloodGroupController.dispose();
     localAddressController.dispose();
     fathersNameController.dispose();
     mobileNumberController.dispose();
@@ -70,6 +76,9 @@ class Registration1Controller extends GetxController {
     update();
 
     Map<String, dynamic> registrationData = {
+      'name':nameController.text,
+      'date_of_birth':dobController.text,
+      'blood_group':bloodGroupController.text,
       'local_address': localAddressController.text,
       'fathers_name': fathersNameController.text,
       'mobile_number': normalizePhoneNumber(mobileNumberController.text),

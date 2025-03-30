@@ -1,4 +1,7 @@
 import 'package:peak_app/screens/logout/logout_controller.dart';
+import 'package:peak_app/screens/update_profile/additional_information/additional_info_controller.dart';
+import 'package:peak_app/screens/update_profile/personal_information/personal_info_controller.dart';
+import 'package:peak_app/screens/update_profile/profesional_information/professional_info_controller.dart';
 import 'package:peak_app/utils/screen_imports.dart';
 import 'package:peak_app/widgets/back_button.dart';
 import 'package:peak_app/screens/profile/profile_controller.dart';
@@ -6,6 +9,9 @@ import 'package:peak_app/screens/profile/profile_controller.dart';
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({super.key});
   final controller = Get.put(ProfileController());
+  final personalcontroller = Get.put(PersonalInfoController());
+  final professionalcontroller = Get.put(ProfessionalInfoController());
+  final additionalInfocontroller = Get.put(AdditionalInfoController());
   final logoutController = Get.put(LogOutController());
 
   @override

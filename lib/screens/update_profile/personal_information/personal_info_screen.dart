@@ -2,6 +2,7 @@ import 'package:peak_app/screens/update_profile/personal_information/personal_in
 import 'package:peak_app/utils/screen_imports.dart';
 import 'package:peak_app/widgets/back_button.dart';
 import 'package:peak_app/widgets/button.dart';
+import 'package:peak_app/widgets/input_fields/date_field.dart';
 import 'package:peak_app/widgets/input_fields/drop_down_field.dart';
 import 'package:peak_app/widgets/input_fields/input_field.dart';
 
@@ -82,6 +83,68 @@ class PersonalInfoScreen extends StatelessWidget {
   Widget _buildFormFields(BuildContext context) {
     return Column(
       children: [
+        CustomInputField(
+          label: 'name-label'.tr,
+          hintText: 'name-hint'.tr,
+          icon: Icons.person_outline_outlined,
+          controller: controller.nameController,
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'error-name'.tr; // Error if field is empty
+            } else if (!RegExp(r"^[a-zA-Z\s]+$").hasMatch(value)) {
+              return 'invalid-fathers-name'
+                  .tr; // Error if invalid characters are present
+            }
+            return null; // Valid input
+          },
+        ),
+        const SizedBox(height: 20),
+        DateInputField(
+          label: 'dob-label'.tr,
+          hintText: 'dob-hint'.tr,
+          icon: Icons.date_range_outlined,
+          controller: controller.dobController,
+          validator: (value) =>
+              value == null || value.isEmpty ? 'error-dob'.tr : null,
+        ),
+        const SizedBox(height: 20),
+        CustomDropdownField(
+          label: 'blood-group-label'.tr,
+          hintText: 'blood-group-hint'.tr,
+          icon: Icons.water_drop_outlined,
+          options: const ['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'],
+          controller: controller.bloodGroupController,
+          validator: (value) =>
+              value == null || value.isEmpty ? 'error-blood-group'.tr : null,
+        ),
+        const SizedBox(height: 20),
+        // Obx(() {
+        //   if (controller.changeStatus.value == 1) {
+        //     return Column(
+        //       children: [
+        //         CustomInputField(
+        //           label: 'whatsapp-number-label'.tr,
+        //           hintText: 'whatsapp-number-hint'.tr,
+        //           icon: Icons.phone_android_rounded,
+        //           controller: controller.whatsappNumberController,
+        //           isNumeric: true,
+        //           validator: (value) {
+        //             if (value == null || value.isEmpty) {
+        //               return 'error-mobile-number'.tr;
+        //             } else if (!RegExp(r"^(?:\+?\d{7,15}|00\d{7,15})$")
+        //                 .hasMatch(value)) {
+        //               return 'invalid-mobile-number'.tr;
+        //             }
+        //             return null;
+        //           },
+        //         ),
+        //         const SizedBox(height: 20),
+        //       ],
+        //     );
+        //   } else {
+        //     return const SizedBox();
+        //   }
+        // }),
         CustomInputField(
           label: 'local-address-label'.tr,
           hintText: 'local-address-hint'.tr,

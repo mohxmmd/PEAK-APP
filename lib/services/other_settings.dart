@@ -81,9 +81,9 @@ class OtherSettings {
   Future<Map<String, dynamic>> fetchTransactions() async =>
       await _fetchData('transactions');
 
-  Future<Map<String, dynamic>> fetchSubscriptionFee() async {
+  Future<Map<String, dynamic>> fetchWhatsappNumberChangeStatus() async {
     final data = await _fetchData('subscription-fee');
-    return {'subscription_fee': data['subscription_fee']};
+    return {'change_status': data['subscription_fee']};
   }
 
   Future<String> fetchRazorpayKey() async {
