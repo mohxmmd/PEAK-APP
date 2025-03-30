@@ -1,6 +1,7 @@
 import UIKit
 import Flutter
 import Firebase
+import FirebaseMessaging
 import UserNotifications
 
 @UIApplicationMain
@@ -31,6 +32,10 @@ import UserNotifications
       }
       
       application.registerForRemoteNotifications()
+      
+      // ✅ Set Firebase Messaging delegate
+      Messaging.messaging().delegate = self
+
       return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 
@@ -39,8 +44,13 @@ import UserNotifications
     didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
   ) {
       Messaging.messaging().apnsToken = deviceToken
-      print("APNS Token: \(deviceToken)")
   }
+}
+
+// ✅ Handle FCM Token Refresh
+extension AppDelegate: MessagingDelegate {
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+    }
 }
 
 // Handle notification while app is in foreground
