@@ -21,6 +21,8 @@ Future<void> main() async {
   _setDeviceOrientation();
   _setSystemUIOverlayStyle();
   _initializeControllers();
+  WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
   runApp(const MyApp());
 }
 

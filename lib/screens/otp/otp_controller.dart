@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:peak_app/routes/routes.dart';
 import 'package:peak_app/screens/settings/settings_controller.dart';
-import 'package:peak_app/services/notification_service.dart';
 import 'package:peak_app/services/other_settings.dart';
 import 'package:peak_app/services/otp_service.dart';
 import 'package:peak_app/services/user_service.dart';
