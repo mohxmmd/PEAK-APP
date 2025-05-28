@@ -192,11 +192,17 @@ class PersonalInfoScreen extends StatelessWidget {
           icon: Icons.email_outlined,
           controller: controller.emailAddressController,
           validator: (value) {
-            if (value?.isEmpty == true) return 'error-email'.tr;
-            const emailPattern =
-                r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
-            final regExp = RegExp(emailPattern);
-            if (!regExp.hasMatch(value!)) return 'invalid-email'.tr;
+            if (value == null || value.isEmpty) {
+              return null; // Email is optional, so no error if it's empty
+            }
+
+            // Email validation regex
+            final emailRegExp =
+                RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+            if (!emailRegExp.hasMatch(value)) {
+              return 'error-invalid-email'.tr;
+            }
+
             return null;
           },
         ),

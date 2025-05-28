@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -10,7 +9,6 @@ class ProfilePictureWidget extends StatelessWidget {
   const ProfilePictureWidget({super.key, required this.controller});
 
   Future<void> _showImagePickerOptions(BuildContext context) async {
-    final ImagePicker picker = ImagePicker();
     showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(
@@ -19,30 +17,20 @@ class ProfilePictureWidget extends StatelessWidget {
       builder: (BuildContext context) {
         return Wrap(
           children: [
-            // Option to capture photo
             ListTile(
               leading: const Icon(Icons.camera_alt),
               title: const Text('Capture Photo'),
               onTap: () async {
                 Navigator.pop(context);
-                final XFile? photo =
-                    await picker.pickImage(source: ImageSource.camera);
-                if (photo != null) {
-                  controller.profileImage.value = File(photo.path);
-                }
+                await controller.pickImage(source: ImageSource.camera);
               },
             ),
-            // Option to choose from gallery
             ListTile(
               leading: const Icon(Icons.photo_library),
               title: const Text('Choose from Gallery'),
               onTap: () async {
                 Navigator.pop(context);
-                final XFile? image =
-                    await picker.pickImage(source: ImageSource.gallery);
-                if (image != null) {
-                  controller.profileImage.value = File(image.path);
-                }
+                await controller.pickImage(source: ImageSource.gallery);
               },
             ),
           ],
@@ -59,37 +47,20 @@ class ProfilePictureWidget extends StatelessWidget {
         child: Stack(
           clipBehavior: Clip.none,
           children: [
-            // Main image container
-            Obx(
-              () => GestureDetector(
-                onTap: () => _showImagePickerOptions(context),
-                child: Container(
-                  width: 100,
-                  height: 110,
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(17, 255, 255, 255),
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(
-                      color: const Color(0xFF606363),
-                      width: 0.2,
-                    ),
-                    image: controller.profileImage.value != null
-                        ? DecorationImage(
-                            image: FileImage(controller.profileImage.value!),
-                            fit: BoxFit.cover,
-                          )
-                        : null,
-                  ),
-                  child: controller.profileImage.value == null
-                      ? Icon(
-                          Icons.person,
-                          color: Colors.grey[600],
-                          size: 50,
-                        )
-                      : null,
-                ),
-              ),
-            ),
+            Obx(() {
+              // Show loading state
+              if (controller.isUploadingImage) {
+                return _buildUploadingContainer();
+              }
+
+              // Show error state
+              if (controller.uploadError != null) {
+                return _buildErrorContainer(context);
+              }
+
+              // Show normal state
+              return _buildImageContainer(context);
+            }),
             // Camera icon overlay
             Positioned(
               bottom: -10,
@@ -102,9 +73,7 @@ class ProfilePictureWidget extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: const Color(0xFF90C764),
                     shape: BoxShape.circle,
-                    border: Border.all(
-                      width: 0.2,
-                    ),
+                    border: Border.all(width: 0.2),
                   ),
                   child: const Icon(Icons.camera_alt_outlined,
                       color: Colors.white, size: 10),
@@ -113,6 +82,105 @@ class ProfilePictureWidget extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildUploadingContainer() {
+    return Container(
+      width: 100,
+      height: 110,
+      decoration: BoxDecoration(
+        color: const Color.fromARGB(17, 255, 255, 255),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: const Color(0xFF606363), width: 0.2),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CircularProgressIndicator(
+            value: controller.uploadProgress,
+            strokeWidth: 2,
+          ),
+          const SizedBox(height: 8),
+          Text(
+            '${(controller.uploadProgress * 100).toStringAsFixed(0)}%',
+            style: const TextStyle(fontSize: 12),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildErrorContainer(BuildContext context) {
+    return Tooltip(
+      message: controller.uploadError ?? 'Image error',
+      child: GestureDetector(
+        onTap: () => _showImagePickerOptions(context),
+        child: Container(
+          width: 100,
+          height: 110,
+          decoration: BoxDecoration(
+            color: const Color.fromARGB(17, 255, 255, 255),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: Colors.red, width: 1),
+          ),
+          child: const Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.error, color: Colors.red, size: 30),
+              SizedBox(height: 4),
+              Text('Try Again',
+                  style: TextStyle(fontSize: 10, color: Colors.red)),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildImageContainer(BuildContext context) {
+    return GestureDetector(
+      onTap: () => _showImagePickerOptions(context),
+      child: Container(
+        width: 100,
+        height: 110,
+        decoration: BoxDecoration(
+          color: const Color.fromARGB(17, 255, 255, 255),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: const Color(0xFF606363), width: 0.2),
+          image: controller.profileImage.value != null
+              ? DecorationImage(
+                  image: FileImage(controller.profileImage.value!),
+                  fit: BoxFit.cover,
+                )
+              : null,
+        ),
+        child: controller.profileImage.value == null
+            ? Icon(Icons.person, color: Colors.grey[600], size: 50)
+            : FutureBuilder<int>(
+                future: controller.profileImage.value?.length(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    final sizeKB = snapshot.data! / 1024;
+                    return Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Container(
+                        padding: const EdgeInsets.all(2),
+                        color: Colors.black54,
+                        child: Text(
+                          '${sizeKB.toStringAsFixed(1)}KB',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 10,
+                          ),
+                        ),
+                      ),
+                    );
+                  }
+                  return const SizedBox();
+                },
+              ),
       ),
     );
   }

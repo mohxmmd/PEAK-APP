@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:peak_app/routes/routes.dart';
 import 'package:peak_app/screens/dashboard/dashboard_controller.dart';
 import 'package:peak_app/services/user_service.dart';
@@ -38,18 +40,71 @@ class ProfileController extends GetxController {
     userMail.value = prefs.getString('email_id') ?? 'email';
   }
 
+  Future<File?> _compressImage(File file) async {
+    try {
+      final dir = await getTemporaryDirectory();
+      final targetPath =
+          "${dir.absolute.path}/${DateTime.now().millisecondsSinceEpoch}.jpg";
+
+      // Get original file size
+      final originalSize = await file.length();
+      debugPrint('Original image size: ${originalSize / 1024} KB');
+
+      // First compression attempt
+      XFile? compressedXFile = await FlutterImageCompress.compressAndGetFile(
+        file.absolute.path,
+        targetPath,
+        quality: 70,
+        format: CompressFormat.jpeg,
+        minWidth: 1080,
+        minHeight: 1080,
+      );
+
+      if (compressedXFile == null) return null;
+
+      // Convert XFile to File
+      File compressedFile = File(compressedXFile.path);
+      var compressedSize = await compressedFile.length();
+      debugPrint('First compression size: ${compressedSize / 1024} KB');
+
+      // If still too large, compress further
+      if (compressedSize > 1000000) {
+        compressedXFile = await FlutterImageCompress.compressAndGetFile(
+          compressedFile.path,
+          targetPath.replaceAll('.jpg', '_2.jpg'),
+          quality: 50,
+        );
+
+        if (compressedXFile == null) return compressedFile;
+
+        compressedFile = File(compressedXFile.path);
+        compressedSize = await compressedFile.length();
+        debugPrint('Second compression size: ${compressedSize / 1024} KB');
+      }
+
+      return compressedFile;
+    } catch (e) {
+      debugPrint('Error compressing image: $e');
+      return file; // Return original if compression fails
+    }
+  }
+
   Future<void> pickImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
     final prefs = await SharedPreferences.getInstance();
 
     if (pickedFile != null) {
-      profileImage.value = File(pickedFile.path);
-      await updateProfilePicture();
-      var userData = await userService.getUserData();
+      final originalFile = File(pickedFile.path);
+      final compressedFile = await _compressImage(originalFile);
 
-      prefs.setString('profile_picture', userData['profile_picture']);
-      userService.saveUserDataToLocal();
-      dashBoardController.refreshData();
+      if (compressedFile != null) {
+        profileImage.value = compressedFile;
+        await updateProfilePicture();
+        var userData = await userService.getUserData();
+        prefs.setString('profile_picture', userData['profile_picture']);
+        userService.saveUserDataToLocal();
+        dashBoardController.refreshData();
+      }
     } else {
       Get.snackbar(
         "Image Selection",
@@ -61,16 +116,20 @@ class ProfileController extends GetxController {
 
   void takePhoto() async {
     final prefs = await SharedPreferences.getInstance();
+    final pickedFile = await _picker.pickImage(source: ImageSource.camera);
 
-    final pickedFile =
-        await ImagePicker().pickImage(source: ImageSource.camera);
     if (pickedFile != null) {
-      profileImage.value = File(pickedFile.path);
-      await updateProfilePicture();
-      userService.saveUserDataToLocal();
-      var userData = await userService.getUserData();
-      prefs.setString('profile_picture', userData['profile_picture']);
-      dashBoardController.refreshData();
+      final originalFile = File(pickedFile.path);
+      final compressedFile = await _compressImage(originalFile);
+
+      if (compressedFile != null) {
+        profileImage.value = compressedFile;
+        await updateProfilePicture();
+        var userData = await userService.getUserData();
+        prefs.setString('profile_picture', userData['profile_picture']);
+        userService.saveUserDataToLocal();
+        dashBoardController.refreshData();
+      }
     }
   }
 

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
+import 'package:peak_app/utils/screen_imports.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:path/path.dart';
 
@@ -78,14 +79,18 @@ class UserService {
       if (registrationData['profile_picture'] != null &&
           registrationData['profile_picture'] != '') {
         String profileImagePath = registrationData['profile_picture'];
+        debugPrint('Trying to upload image: $profileImagePath');
 
         if (File(profileImagePath).existsSync()) {
+          debugPrint('Image file exists. Adding to request.');
           request.files.add(await http.MultipartFile.fromPath(
             'profile_picture',
             profileImagePath,
             filename: basename(profileImagePath),
           ));
-        } else {}
+        } else {
+          debugPrint('Image file does NOT exist!');
+        }
       }
 
       var response = await request.send();
@@ -94,7 +99,9 @@ class UserService {
         saveUserDataToLocal();
       } else {}
       // ignore: empty_catches
-    } catch (e) {}
+    } catch (e) {
+      debugPrint('Error in updateUserData: $e');
+    }
   }
 
   Future<bool> deleteAccount() async {

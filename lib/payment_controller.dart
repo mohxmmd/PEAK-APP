@@ -21,16 +21,15 @@ class PaymentController extends GetxController {
   final OtherSettings otherSettings = OtherSettings();
 
   var userName = ''.obs;
-  var mobile_number = ''.obs;
-  var email_id = ''.obs;
+  var mobileNumber = ''.obs;
+  var emailId = ''.obs;
 
   int subscriptionAmount = 0;
   int currentTransactionId = 0;
   String paymentDescription = '';
   int paymentSchemeId = 0;
   String razorpayKey = '';
-  static const defaultPrefillContact = '9876543210';
-  static const defaultPrefillEmail = 'user@gmail.com';
+
   static const currency = 'INR';
 
   @override
@@ -61,8 +60,8 @@ class PaymentController extends GetxController {
     final prefs = await SharedPreferences.getInstance();
     userName.value = prefs.getString('name') ?? 'User Name';
     razorpayKey = prefs.getString('razorpay_key') ?? '';
-    mobile_number.value = prefs.getString('mobile_number') ?? '';
-    email_id.value = prefs.getString('email_id') ?? '';
+    mobileNumber.value = prefs.getString('mobile_number') ?? '';
+    emailId.value = prefs.getString('email_id') ?? '';
   }
 
   String _generateReferenceId() {
@@ -116,13 +115,19 @@ class PaymentController extends GetxController {
       'description': title,
       'order_id': orderId,
       'prefill': {
-        'contact': mobile_number.value,
-        'email': email_id.value,
+        'contact': mobileNumber.value,
+        'email': emailId.value,
       },
       'notes': {
         'name': memberName,
         'member_id': memberId,
         'reference_id': referenceId,
+      },
+      'method': {
+        'card': false,
+        'netbanking': false,
+        'upi': true,
+        'wallet': false,
       },
       'external': {
         'wallets': ['paytm']
@@ -152,60 +157,13 @@ class PaymentController extends GetxController {
 
   void _handlePaymentError(PaymentFailureResponse response) async {
     logError("Payment Failed");
-    print(response.error.toString());
+    debugPrint(response.error.toString());
     await _updateTransaction(response, false);
   }
 
   void _handleExternalWallet(ExternalWalletResponse response) {
     logInfo("External Wallet Selected: ${response.walletName}");
   }
-
-  // Future<void> _storeTransaction(dynamic response, bool isSuccess) async {
-  //   final url = '$apiUrl/transactions';
-  //   final prefs = await SharedPreferences.getInstance();
-  //   final memberId = prefs.getInt('member_id') ?? 0;
-  //   final memberName = prefs.getString('name') ?? 'Anonymous';
-  //   final referenceId = _generateReferenceId();
-  //   var token = prefs.getString('token');
-
-  //   final data = {
-  //     'member_id': memberId,
-  //     'scheme_id': int.tryParse(paymentSchemeId.toString()),
-  //     'member_name': memberName,
-  //     'razorpay_payment_id': isSuccess ? response.paymentId : null,
-  //     'razorpay_signature': isSuccess ? response.signature : null,
-  //     'reference_id': referenceId,
-  //     'amount': subscriptionAmount / 100,
-  //     'currency': currency,
-  //     'status': isSuccess ? '2' : '0',
-  //     'description': isSuccess
-  //         ? paymentDescription
-  //         : 'Error Code:${response.code}, Error Message:${response.message}',
-  //   };
-
-  //   try {
-  //     final apiResponse = await http.post(
-  //       Uri.parse(url),
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         'Authorization': 'Bearer $token'
-  //       },
-  //       body: json.encode(data),
-  //     );
-
-  //     if (apiResponse.statusCode == 200 || apiResponse.statusCode == 201) {
-  //       logInfo("Transaction stored successfully.");
-  //       if (isSuccess) dashboardController.loadUserData();
-  //       final transactionController = Get.put(TransactionController());
-  //       transactionController.fetchTransactions();
-  //     } else {
-  //       logError(
-  //           "Failed to store transaction: ${apiResponse.statusCode}\n${apiResponse.body}");
-  //     }
-  //   } catch (e) {
-  //     logError("Error storing transaction: $e");
-  //   }
-  // }
 
   Future<void> _updateTransaction(dynamic response, bool isSuccess) async {
     final url = '$apiUrl/transactions/$currentTransactionId?_method=PATCH';

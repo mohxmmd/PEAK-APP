@@ -69,9 +69,9 @@ class NotificationScreen extends StatelessWidget {
                   itemCount: controller.notifications.length,
                   itemBuilder: (context, index) {
                     final notification = controller.notifications[index];
-                    final formattedTime = DateFormat('MMM d hh:mm a').format(
-                      DateTime.parse(notification['created_at']),
-                    );
+                    final utcTime = DateTime.parse(notification['created_at']);
+                    final localTime = utcTime.toLocal();
+                    final formattedTime = DateFormat('MMM d hh:mm a').format(localTime);
 
                     return Card(
                       margin: const EdgeInsets.symmetric(

@@ -19,7 +19,7 @@ class PersonalInfoController extends GetxController {
 
   final RxString maritalStatus = ''.obs;
   var changeStatus = 0.obs;
-
+  
   final DashBoardController dashBoardController =
       Get.find<DashBoardController>();
 

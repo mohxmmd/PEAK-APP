@@ -1,15 +1,12 @@
-import 'package:peak_app/payment_controller.dart';
-import 'package:peak_app/screens/notification/notification_controller.dart';
-import 'package:peak_app/screens/transaction/transaction_controller.dart';
 import 'package:peak_app/utils/screen_imports.dart';
 import 'package:peak_app/widgets/dashboard_widgets/donation_card.dart';
 import 'package:peak_app/widgets/dashboard_widgets/icon_button.dart';
 import 'package:peak_app/widgets/dashboard_widgets/id_card.dart';
 import 'package:peak_app/widgets/dashboard_widgets/membership_status_card.dart';
 import 'package:peak_app/widgets/dashboard_widgets/notification_button.dart';
-import 'package:peak_app/widgets/dashboard_widgets/profile_status_card.dart';
 import 'package:peak_app/screens/dashboard/dashboard_controller.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:upgrader/upgrader.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -29,13 +26,16 @@ class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(DashBoardController());
-    final paymentController = Get.put(PaymentController());
-    final notificationController = Get.put(NotificationController());
-    final transactionController = Get.put(TransactionController());
+
     final textStyles = _getTextStyles(context);
 
     return ResponsiveLayout(
-      mobileScaffold: Scaffold(
+        mobileScaffold: UpgradeAlert(
+      upgrader: Upgrader(
+        debugDisplayAlways: true,
+        durationUntilAlertAgain: const Duration(seconds: 0),
+      ),
+      child: Scaffold(
         backgroundColor: const Color(0xFFFFEFC8),
         body: SafeArea(
           child: SingleChildScrollView(
@@ -75,7 +75,7 @@ class DashboardScreen extends StatelessWidget {
           ),
         ),
       ),
-    );
+    ));
   }
 
   // Welcome Header Widget
@@ -202,7 +202,7 @@ class DashboardScreen extends StatelessWidget {
   // Fund Raisers Section
   Widget _fundRaisers(DashBoardController controller) {
     if (controller.fundRaisers.isEmpty) {
-      return Column(
+      return const Column(
         children: [
           // ProfileStatusCard(
           //   iconImage: 'assets/images/profile.png',

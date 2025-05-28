@@ -53,7 +53,21 @@ class RegistrationController2 extends GetxController {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     memberId.value = prefs.getInt('member_id') ?? 0;
     countries.value = prefs.getStringList('countries') ??
-        ['UAE', 'India', 'Qatar', 'Saudi', 'USA', 'Canada'];
+        [
+          'Bahrain',
+          'Germany',
+          'Kuwait',
+          'Oman',
+          'Poland',
+          'United Arab Emirates',
+          'India',
+          'Qatar',
+          'Saudi Arabia',
+          'United States',
+          'United Kingdom',
+          'Canada',
+          'Yemen'
+        ];
   }
 
   // Register process function
