@@ -1,74 +1,36 @@
 import UIKit
 import Flutter
 import Firebase
-import FirebaseMessaging
-import UserNotifications
 
-@UIApplicationMain
+@main
 @objc class AppDelegate: FlutterAppDelegate {
   override func application(
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
-      FirebaseApp.configure()
-      GeneratedPluginRegistrant.register(with: self)
+    FirebaseApp.configure()
+      UIApplication.shared.registerForRemoteNotifications()
 
-      if #available(iOS 10.0, *) {
-          UNUserNotificationCenter.current().delegate = self
-          let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-          UNUserNotificationCenter.current().requestAuthorization(
-              options: authOptions,
-              completionHandler: { granted, error in
-                  if let error = error {
-                      print("Error requesting notification authorization: \(error)")
-                  }
-                  print("Notification permission granted: \(granted)")
-              }
-          )
-      } else {
-          let settings: UIUserNotificationSettings =
-              UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
-          application.registerUserNotificationSettings(settings)
-      }
-      
-      application.registerForRemoteNotifications()
-      
-      // ✅ Set Firebase Messaging delegate
-      Messaging.messaging().delegate = self
-
-      return super.application(application, didFinishLaunchingWithOptions: launchOptions)
+    GeneratedPluginRegistrant.register(with: self)
+    return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
+    
 
-  override func application(
-    _ application: UIApplication,
-    didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
-  ) {
-      Messaging.messaging().apnsToken = deviceToken
-  }
-}
 
-// ✅ Handle FCM Token Refresh
-extension AppDelegate: MessagingDelegate {
-    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+    
+
+
+    override func application(_ application: UIApplication,
+                     didFailToRegisterForRemoteNotificationsWithError
+                     error: Error) {
+        // Try again later.
     }
+    override func application(_ application: UIApplication,
+                              didRegisterForRemoteNotificationsWithDeviceToken deviceToken:Data){
+
+                                
+                                Messaging.messaging().apnsToken = deviceToken
+                                super.application(application, didRegisterForRemoteNotificationsWithDeviceToken:deviceToken)
+                              }
 }
 
-// Handle notification while app is in foreground
-@available(iOS 10, *)
-extension AppDelegate: UNUserNotificationCenterDelegate {
-  func userNotificationCenter(
-    _ center: UNUserNotificationCenter,
-    willPresent notification: UNNotification,
-    withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
-  ) {
-      completionHandler([.alert, .badge, .sound])
-  }
-
-  func userNotificationCenter(
-    _ center: UNUserNotificationCenter,
-    didReceive response: UNNotificationResponse,
-    withCompletionHandler completionHandler: @escaping () -> Void
-  ) {
-      completionHandler()
-  }
-}
