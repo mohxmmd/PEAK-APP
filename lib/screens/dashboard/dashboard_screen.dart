@@ -32,7 +32,6 @@ class DashboardScreen extends StatelessWidget {
     return ResponsiveLayout(
         mobileScaffold: UpgradeAlert(
       upgrader: Upgrader(
-        debugDisplayAlways: true,
         durationUntilAlertAgain: const Duration(seconds: 0),
       ),
       child: Scaffold(
